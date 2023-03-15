@@ -10,24 +10,24 @@ namespace CodeWebCuaTui.Models
         }
         public CodeWebCuaTuiDbContex(DbContextOptions options) : base(options) { }
 
-        public DbSet<Anh> anhs { get; set; }
-        public DbSet<ChiTietGioHang> ChiTietGioHang { get; set; }
-        public DbSet<ChiTietHoaDon> ChiTietHoaDoon { get; set; }
-        public DbSet<ChiTietSp> ChiTietSP { get; set; }
-        public DbSet<GioHang> GioHangs { get; set; }
-        public DbSet<HoaDon> hoaDons { get; set; }
-        public DbSet<KichCo> kichCos { get; set; }
-        public DbSet<MauSac> mauSacs { get; set; }
-        public DbSet<NguoiDung> nguoiDungs { get; set; }
-        public DbSet<NhaSanXuat> NhaSanXuats { get; set; }
-        public DbSet<PhuongThucThanhToan> PhuongThucThanhToans { get; set; }
-        public DbSet<SanPham> SanPhams { get; set; }
-        public DbSet<TheLoai> theLoais { get; set; }
-        public DbSet<VaiTro> vaiTros { get; set; }
+        public DbSet<Images> Images { get; set; }
+        public DbSet<CartDetails> CartDetails { get; set; }
+        public DbSet<BillDetails> BillDetails { get; set; }
+        public DbSet<ProductDetails> ProductDetails { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Bill> Bills { get; set; }
+        public DbSet<Size> Sizes { get; set; }
+        public DbSet<Color> Colors { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<PaymentMethods> PaymentMethods { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Role> Roles { get; set; }
       
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=MSI\SQLEXPRESS;Initial Catalog=C#4_PH25680;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=MSI\SQLEXPRESS;Initial Catalog=Net104;Integrated Security=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
