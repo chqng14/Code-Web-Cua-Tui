@@ -63,8 +63,8 @@ namespace CodeWebCuaTui.Services
                 var a = _context.Sizes.Find(p.ID);
                 a.Code = p.Code;
                 a.Name = p.Name;
-                a.Status =p.Status;
-              
+                a.Status = p.Status;
+
                 _context.Sizes.Update(a);
                 _context.SaveChanges();
                 return true;

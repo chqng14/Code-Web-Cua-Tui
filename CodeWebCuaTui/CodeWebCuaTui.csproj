@@ -17,6 +17,54 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Image\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Image\3lo.jpg" />
+    <None Include="wwwroot\Image\aoden.jpg" />
+    <None Include="wwwroot\Image\aodoi.jpg" />
+    <None Include="wwwroot\Image\aohoodie.jpg" />
+    <None Include="wwwroot\Image\bannerMixishopnew.png" />
+    <None Include="wwwroot\Image\bodoilego.jpg" />
+    <None Include="wwwroot\Image\credit-card.png" />
+    <None Include="wwwroot\Image\duocemiu.jpg" />
+    <None Include="wwwroot\Image\hehe.jpg" />
+    <None Include="wwwroot\Image\Lego1.jpg" />
+    <None Include="wwwroot\Image\Legonoel.jpg" />
+    <None Include="wwwroot\Image\Legoquandui.jpg" />
+    <None Include="wwwroot\Image\Legovest.jpg" />
+    <None Include="wwwroot\Image\Logo.jpg" />
+    <None Include="wwwroot\Image\Logo1.png" />
+    <None Include="wwwroot\Image\master-card.png" />
+    <None Include="wwwroot\Image\Mixigaming-Logo.jpg" />
+    <None Include="wwwroot\Image\MixiShop2022.png" />
+    <None Include="wwwroot\Image\mixitoctruong1.png" />
+    <None Include="wwwroot\Image\mixitoctruong2.png" />
+    <None Include="wwwroot\Image\MIxiVideo.mp4" />
+    <None Include="wwwroot\Image\new.png" />
+    <None Include="wwwroot\Image\NMD14131-300x400.jpg" />
+    <None Include="wwwroot\Image\phone-call.png" />
+    <None Include="wwwroot\Image\popularity.png" />
+    <None Include="wwwroot\Image\promotional.png" />
+    <None Include="wwwroot\Image\rambo.jpg" />
+    <None Include="wwwroot\Image\rating.png" />
+    <None Include="wwwroot\Image\Screenshot 2023-01-09 104747.txt" />
+    <None Include="wwwroot\Image\Search.png" />
+    <None Include="wwwroot\Image\settings.png" />
+    <None Include="wwwroot\Image\shopping-cart.png" />
+    <None Include="wwwroot\Image\size.png" />
+    <None Include="wwwroot\Image\slide.jpg" />
+    <None Include="wwwroot\Image\snake.jpg" />
+    <None Include="wwwroot\Image\soqua.jpg" />
+    <None Include="wwwroot\Image\stars.png" />
+    <None Include="wwwroot\Image\toctruong3.png" />
+    <None Include="wwwroot\Image\user.png" />
+    <None Include="wwwroot\Image\visa.png" />
   </ItemGroup>
 
 </Project>

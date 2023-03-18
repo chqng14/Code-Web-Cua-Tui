@@ -40,21 +40,14 @@ namespace CodeWebCuaTui.Migrations
                         .HasColumnType("Datetime");
 
                     b.Property<DateTime>("DateOfPay")
-                        .HasColumnType("Datetime");
-
-                    b.Property<int>("DeliveryStatus")
-                        .HasColumnType("int");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Describe")
-                        .IsRequired()
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)");
-
-                    b.Property<Guid>("PayID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -70,8 +63,6 @@ namespace CodeWebCuaTui.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("PayID");
 
                     b.HasIndex("UserID");
 
@@ -90,7 +81,7 @@ namespace CodeWebCuaTui.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("Decimal");
 
-                    b.Property<Guid>("ProductDetailsId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
@@ -103,7 +94,7 @@ namespace CodeWebCuaTui.Migrations
 
                     b.HasIndex("BillID");
 
-                    b.HasIndex("ProductDetailsId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("BillDetails", (string)null);
                 });
@@ -114,7 +105,6 @@ namespace CodeWebCuaTui.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Describe")
-                        .IsRequired()
                         .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("ID");
@@ -128,7 +118,7 @@ namespace CodeWebCuaTui.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProductDetailsId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
@@ -142,7 +132,7 @@ namespace CodeWebCuaTui.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProductDetailsId");
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserID");
 
@@ -203,68 +193,31 @@ namespace CodeWebCuaTui.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<string>("Path")
+                    b.Property<string>("Path1")
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<Guid>("ProductDetailsId")
+                    b.Property<string>("Path2")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Path3")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Path4")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ProductDetailsId");
 
                     b.ToTable("Image", (string)null);
                 });
 
-            modelBuilder.Entity("CodeWebCuaTui.Models.PaymentMethods", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Payment methods", (string)null);
-                });
-
             modelBuilder.Entity("CodeWebCuaTui.Models.Product", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Product", (string)null);
-                });
-
-            modelBuilder.Entity("CodeWebCuaTui.Models.ProductDetails", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -277,6 +230,12 @@ namespace CodeWebCuaTui.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Describe")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ImageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)");
 
@@ -286,9 +245,6 @@ namespace CodeWebCuaTui.Migrations
                     b.Property<string>("ProductCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)");
-
-                    b.Property<Guid>("ProductID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -308,13 +264,13 @@ namespace CodeWebCuaTui.Migrations
 
                     b.HasIndex("ColorID");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ImageID");
 
                     b.HasIndex("SizeID");
 
                     b.HasIndex("SupplierID");
 
-                    b.ToTable("ProductDetails", (string)null);
+                    b.ToTable("Product", (string)null);
                 });
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Role", b =>
@@ -397,11 +353,9 @@ namespace CodeWebCuaTui.Migrations
                         .HasColumnType("Datetime");
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Name")
@@ -430,26 +384,17 @@ namespace CodeWebCuaTui.Migrations
 
                     b.HasIndex("RoleID");
 
-                    b.ToTable("NguoiDung", (string)null);
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Bill", b =>
                 {
-                    b.HasOne("CodeWebCuaTui.Models.PaymentMethods", "PaymentMethods")
-                        .WithMany("Bills")
-                        .HasForeignKey("PayID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_pttt");
-
                     b.HasOne("CodeWebCuaTui.Models.User", "User")
                         .WithMany("Bills")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user");
-
-                    b.Navigation("PaymentMethods");
 
                     b.Navigation("User");
                 });
@@ -462,15 +407,15 @@ namespace CodeWebCuaTui.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CodeWebCuaTui.Models.ProductDetails", "ProductDetails")
+                    b.HasOne("CodeWebCuaTui.Models.Product", "Product")
                         .WithMany("BillDetails")
-                        .HasForeignKey("ProductDetailsId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Bill");
 
-                    b.Navigation("ProductDetails");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Cart", b =>
@@ -486,9 +431,9 @@ namespace CodeWebCuaTui.Migrations
 
             modelBuilder.Entity("CodeWebCuaTui.Models.CartDetails", b =>
                 {
-                    b.HasOne("CodeWebCuaTui.Models.ProductDetails", "ProductDetails")
+                    b.HasOne("CodeWebCuaTui.Models.Product", "Product")
                         .WithMany("CartDetails")
-                        .HasForeignKey("ProductDetailsId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("Fk_ctsp");
@@ -502,48 +447,37 @@ namespace CodeWebCuaTui.Migrations
 
                     b.Navigation("Cart");
 
-                    b.Navigation("ProductDetails");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("CodeWebCuaTui.Models.Images", b =>
-                {
-                    b.HasOne("CodeWebCuaTui.Models.ProductDetails", "ProductDetails")
-                        .WithMany("Images")
-                        .HasForeignKey("ProductDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductDetails");
-                });
-
-            modelBuilder.Entity("CodeWebCuaTui.Models.ProductDetails", b =>
+            modelBuilder.Entity("CodeWebCuaTui.Models.Product", b =>
                 {
                     b.HasOne("CodeWebCuaTui.Models.Category", "Category")
-                        .WithMany("ProductDetails")
+                        .WithMany("Product")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CodeWebCuaTui.Models.Color", "Color")
-                        .WithMany("ProductDetails")
+                        .WithMany("Product")
                         .HasForeignKey("ColorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CodeWebCuaTui.Models.Product", "Product")
-                        .WithMany("ProductDetails")
-                        .HasForeignKey("ProductID")
+                    b.HasOne("CodeWebCuaTui.Models.Images", "Images")
+                        .WithMany("Product")
+                        .HasForeignKey("ImageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CodeWebCuaTui.Models.Size", "Sizes")
-                        .WithMany("ProductDetails")
+                        .WithMany("Product")
                         .HasForeignKey("SizeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CodeWebCuaTui.Models.Supplier", "Suppliers")
-                        .WithMany("ProductDetails")
+                        .WithMany("Product")
                         .HasForeignKey("SupplierID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -552,7 +486,7 @@ namespace CodeWebCuaTui.Migrations
 
                     b.Navigation("Color");
 
-                    b.Navigation("Product");
+                    b.Navigation("Images");
 
                     b.Navigation("Sizes");
 
@@ -582,31 +516,24 @@ namespace CodeWebCuaTui.Migrations
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Category", b =>
                 {
-                    b.Navigation("ProductDetails");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Color", b =>
                 {
-                    b.Navigation("ProductDetails");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("CodeWebCuaTui.Models.PaymentMethods", b =>
+            modelBuilder.Entity("CodeWebCuaTui.Models.Images", b =>
                 {
-                    b.Navigation("Bills");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Product", b =>
                 {
-                    b.Navigation("ProductDetails");
-                });
-
-            modelBuilder.Entity("CodeWebCuaTui.Models.ProductDetails", b =>
-                {
                     b.Navigation("BillDetails");
 
                     b.Navigation("CartDetails");
-
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Role", b =>
@@ -616,12 +543,12 @@ namespace CodeWebCuaTui.Migrations
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Size", b =>
                 {
-                    b.Navigation("ProductDetails");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("CodeWebCuaTui.Models.Supplier", b =>
                 {
-                    b.Navigation("ProductDetails");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("CodeWebCuaTui.Models.User", b =>

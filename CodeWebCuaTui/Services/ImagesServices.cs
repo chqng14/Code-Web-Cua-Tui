@@ -62,8 +62,10 @@ namespace CodeWebCuaTui.Services
             {
                 var a = _context.Images.Find(Images.ID);
                 a.Name = Images.Name;
-                a.ProductDetailsId = Images.ProductDetailsId;
-                a.Path = Images.Path;
+                a.Path1 = Images.Path1;
+                a.Path2 = Images.Path2;
+                a.Path3 = Images.Path3;
+                a.Path4 = Images.Path4;
                 a.Status = Images.Status;
                 _context.Images.Update(a);
                 _context.SaveChanges();

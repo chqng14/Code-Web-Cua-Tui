@@ -9,5 +9,6 @@ namespace CodeWebCuaTui.IServices
         public List<Images> GetAllImagess();
         public Images GetImagesById(Guid id);
         public List<Images> GetImagesByName(string name);
+
     }
 }

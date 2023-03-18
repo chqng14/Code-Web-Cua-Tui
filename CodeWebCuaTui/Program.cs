@@ -1,8 +1,14 @@
+using CodeWebCuaTui.IServices;
+using CodeWebCuaTui.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddTransient<ICategoryServices, CategoryServices>();
+builder.Services.AddTransient<IColorServices, ColorServices>();
+builder.Services.AddTransient<IImageServices, ImagesServices>();
+builder.Services.AddTransient<ISupplierServices, SupplierServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

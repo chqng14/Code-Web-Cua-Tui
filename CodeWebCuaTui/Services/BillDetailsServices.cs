@@ -65,7 +65,7 @@ namespace CodeWebCuaTui.Services
              
                 _context.BillDetails.Update(a);
                 a.BillID = p.ID;
-                a.ProductDetailsId=p.ProductDetailsId;
+                a.ProductId=p.ProductId;
                 a.Quantity=p.Quantity;
                 a.Price=p.Price;
                 a.Status=p.Status;

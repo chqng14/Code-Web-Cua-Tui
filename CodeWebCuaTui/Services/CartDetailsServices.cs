@@ -62,7 +62,7 @@ namespace CodeWebCuaTui.Services
             {
                 var a = _context.CartDetails.Find(p.ID);
                 a.UserID=p.UserID;
-                a.ProductDetailsId=p.ProductDetailsId;
+                a.ProductId =p.ProductId;
                 a.Quantity = p.Quantity;
                 a.Status =p.Status;
                 _context.CartDetails.Update(a);

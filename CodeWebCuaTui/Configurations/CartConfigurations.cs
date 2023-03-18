@@ -9,7 +9,7 @@ namespace CodeWebCuaTui.Configurations
         {
             builder.ToTable("Cart");
             builder.HasKey(x => x.ID);
-            builder.Property(x => x.Describe).HasColumnType("nvarchar(1000)");
+            builder.Property(x => x.Describe).HasColumnType("nvarchar(1000)").IsRequired(false);
 
             builder.HasOne(x => x.User).WithOne(y => y.Cart).HasForeignKey<Cart>(x=>x.ID);
         }

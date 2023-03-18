@@ -1,6 +1,5 @@
 ﻿using CodeWebCuaTui.Models;
 using CodeWebCuaTui.IServices;
-using Microsoft.EntityFrameworkCore;
 
 namespace CodeWebCuaTui.Services
 {
@@ -11,11 +10,11 @@ namespace CodeWebCuaTui.Services
         {
             _context = new CodeWebCuaTuiDbContex();
         }
-        public bool CreateProducts(Product p)
+        public bool CreateProduct(Product p)
         {
             try
             {
-                _context.Products.Add(p);
+                _context.Product.Add(p);
                 _context.SaveChanges();
                 return true;
             }
@@ -26,12 +25,12 @@ namespace CodeWebCuaTui.Services
             }
         }
 
-        public bool DeleteProducts(Guid id)
+        public bool DeleteProduct(Guid id)
         {
             try
             {
-                var p = _context.Products.Find(id);
-                _context.Products.Remove(p);
+                var p = _context.Product.Find(id);
+                _context.Product.Remove(p);
                 _context.SaveChanges();
                 return true;
             }
@@ -42,31 +41,41 @@ namespace CodeWebCuaTui.Services
             }
         }
 
-        public List<Product> GetAllProductss()
+        public List<Product> GetAllProducts()
         {
-            return _context.Products.ToList();
+            List<Product> lst = new List<Product>();
+
+            return _context.Product.ToList();
         }
 
-        public Product GetProductsById(Guid id)
+        public Product GetProductById(Guid id)
         {
-            return _context.Products.FirstOrDefault(p => p.ID == id);
+            return _context.Product.FirstOrDefault(p => p.ID == id);
         }
 
-        public List<Product> GetProductsByName(string name)
+        public List<Product> GetProductByName(string name)
         {
-            return _context.Products.Where(p => p.Name.Contains(name)).ToList();
+            return _context.Product.Where(c=>c.Name.Contains(name)).ToList();
         }
 
-        public bool UpdateProducts(Product p)
+        public bool UpdateProduct(Product p)
         {
             try
             {
-                var a = _context.Products.Find(p.ID);
-                a.Code = p.Code;
+                var a = _context.Product.Find(p.ID);
+                a.ColorID = p.ColorID;
+                a.SizeID = p.SizeID;
+                a.ProductCode = p.ProductCode;
                 a.Name = p.Name;
+                a.SupplierID = p.SupplierID;
+                a.CategoryID = p.CategoryID;
+                a.ProductCode = p.ProductCode;
+                a.Describe = p.Describe;
+                a.Quantity = p.Quantity;
+                a.Price = p.Price;
+                a.ImageID = p.ImageID;
                 a.Status = p.Status;
-
-                _context.Products.Update(a);
+                _context.Product.Update(a);
                 _context.SaveChanges();
                 return true;
             }
@@ -77,8 +86,4 @@ namespace CodeWebCuaTui.Services
             }
         }
     }
-
-
-
-
 }

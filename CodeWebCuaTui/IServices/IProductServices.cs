@@ -3,11 +3,11 @@ namespace CodeWebCuaTui.IServices
 {
     public interface IProductServices
     {
-        public bool CreateProducts(Product p);
-        public bool UpdateProducts(Product p);
-        public bool DeleteProducts(Guid id);
-        public List<Product> GetAllProductss();
-        public Product GetProductsById(Guid id);
-        public List<Product> GetProductsByName(string name);
+        public bool CreateProduct(Product p);
+        public bool UpdateProduct(Product p);
+        public bool DeleteProduct(Guid id);
+        public List<Product> GetAllProducts();
+        public Product GetProductById(Guid id);
+        public List<Product> GetProductByName(string name);
     }
 }

@@ -3,7 +3,7 @@ using CodeWebCuaTui.IServices;
 
 namespace CodeWebCuaTui.Services
 {
-    public class BillServices:IBillServices
+    public class BillServices : IBillServices
     {
         CodeWebCuaTuiDbContex _context;
         public BillServices()
@@ -63,17 +63,16 @@ namespace CodeWebCuaTui.Services
             {
                 var a = _context.Bills.Find(p.ID);
                 a.UserID = p.UserID;
-                a.PayID = p.PayID;
-                a.BillCode= p.BillCode;
+                a.BillCode = p.BillCode;
                 a.DateCreate = p.DateCreate;
-                a.DateOfPay= p.DateOfPay;
+                a.DateOfPay = p.DateOfPay;
                 a.Name = p.Name;
                 a.Address = p.Address;
-                a.Phone= p.Phone;
-                a.Describe= p.Describe;
+                a.Phone = p.Phone;
+                a.Describe = p.Describe;
                 a.TotalAmount = p.TotalAmount;
                 a.Status = p.Status;
-                a.DeliveryStatus = p.DeliveryStatus;
+  
                 _context.Bills.Update(a);
                 _context.SaveChanges();
                 return true;

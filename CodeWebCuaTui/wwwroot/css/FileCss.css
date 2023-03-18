@@ -1,0 +1,89 @@
+.theloai {
+    color: gray;
+}
+
+.container a {
+    text-decoration: none;
+    line-height: 10px;
+    color: darkolivegreen;
+    font-weight: bold;
+}
+
+.currency:before {
+    content: "ð ";
+}
+
+.anhsp {
+    width: auto;
+    height: 350px;
+}
+
+
+.navbar {
+    position: relative;
+}
+
+.container .trangthai {
+    position: absolute;
+    background-color: dodgerblue;
+    top: -1px;
+    left: 23px;
+    border-radius: 14px;
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    font-weight: bold;
+}
+
+.container .trangthaimoi {
+    position: absolute;
+    background-color: rgb(255, 30, 30);
+    top: -1px;
+    left: 23px;
+    border-radius: 14px;
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    font-weight: bold;
+}
+
+.container .theloai {
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    line-height: auto;
+    text-decoration: underline;
+    background-color: gray;
+    border-radius: 10px;
+    color: red;
+}
+
+.linksp:hover {
+    line-height: auto;
+    text-decoration: underline;
+    color: red;
+}
+
+@media (min-width: 1025px) {
+    .h-custom {
+        height: 100vh !important;
+    }
+}
+
+.button {
+    padding-left: 58%;
+}
+
+    .button button {
+        background: white;
+        color: black;
+        border-radius: 15px;
+        border: 1px solid black;
+    }
+
+.container a:hover {
+    text-decoration: underline;
+}
