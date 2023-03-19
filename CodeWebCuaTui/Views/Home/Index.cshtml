@@ -26,7 +26,9 @@
                       <a class="linksp">  @Html.ActionLink(item.Name, "Details", new { id=item.ID })</a> <br>
   @*              <a class="linksp" asp-area="" asp-controller="Home" asp-action="Details"> @Html.DisplayFor(modelItem => item.Name)</a><br>*@
                 <img src="Image/stars.png" style="border: 0px; width: 60px;" class="img-thumbnail" alt="...">
-                <p><Strong> @Html.DisplayFor(modelItem => item.Price)</Strong>
+                <p><Strong>
+                     @string.Format("{0:N0}đ", item.Price)
+                </Strong>
                </div>
                  
              }

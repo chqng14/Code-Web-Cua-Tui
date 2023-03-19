@@ -9,10 +9,6 @@
     font-weight: bold;
 }
 
-.currency:before {
-    content: "ð ";
-}
-
 .anhsp {
     width: auto;
     height: 350px;

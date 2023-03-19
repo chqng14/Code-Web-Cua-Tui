@@ -4,87 +4,153 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container-fluid">
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ColorID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ColorID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SizeID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SizeID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SupplierID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SupplierID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategoryID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Describe)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Describe)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <div class="container " style="margin-top:20px">
+        <div class="row align-items-start">
+            <hr>
+            <div class="col-12 col-md-12" style="margin: auto;">
+                <h3>Áo Mixi</h3>
+                <a href="#home">Trang Chủ</a>/ <strong>Áo mixi</strong>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 mb-5">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-6 border-end">
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="main_image"> <img src="@Html.DisplayFor(model => model.Images.Path1)" id="main_product_image"
+                                width="400" height="500px"> </div>
+                        <div class="thumbnail_images">
+                              <ul id="thumbnail">
+                                <li><image src="@Html.DisplayFor(model => model.Images.Path1) "  width="70"></image>
+                                </li>
+                                <li><image src="@Html.DisplayFor(model => model.Images.Path1)"  width="70"></image>
+                                </li>
+                                <li><image src="@Html.DisplayFor(model => model.Images.Path1)" width="70"></image>
+                                </li>
+                                <li><image src="@Html.DisplayFor(model => model.Images.Path1)" width="70"></image>
+                                </li>
+                            </ul>
+                            <img style="margin-left: 270px ;" src="~/Image/Logo.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 right-side">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>       @Html.DisplayFor(model => model.Name)</h3>
+                        </div>
+                        <div class="mt-2 pr-3 content">
+                            <img src="~/Image/stars.png" style="border: 0px; width: 50px;" class="img-thumbnail"
+                                alt="..."> <br>
+                            <a href="#danhgia">(14 đánh giá của khách hàng)</a>
+                        </div>
+                        <h3 style="margin-top: 10px;"> @Html.DisplayFor(model => model.Price ) Đ </h3>
+                        <p>Bảng chi tiết size</p>
+                        <img src="~/Image/size.png" alt="">
+                        <div class="col-8" style="margin-top: 5px;" align="justify">
+                            <h5>Size áo :  @Html.DisplayFor(model => model.Sizes.Name) </h5>
+                            <p  style="margin-top: 5px;color:gray">Số lượng trong kho: @Html.DisplayFor(model =>model.Quantity)</p>                 
+                            <hr>
+                            <p>Mã: @Html.DisplayFor(model => model.ProductCode)</p>
+                            <hr>
+                            <p>Danh mục: <a href="#danhmucsanpham"> @Html.DisplayFor(model => model.Category.Name)</a></p>
+                        </div>
+                        <div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-outline-dark">Mua
+                                ngay</button>
+                            <button class="btn btn-dark">Thêm giỏ hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center">
+        <a href=""><h1>Thông tin bổ sung</h1></a>
+        <div class="row align-items-start">
+            <div class="col-12" align="justify">
+                Note : - Đơn hàng đã đến trang order complete và có hiển thị " đơn hàng của bạn đã được
+                                nhận” sẽ được tính là đơn hàng thành công và được cập nhật lên hệ thống. <br>
+                                <br>
+                                - Mỗi đơn hàng thành công có xác nhận gửi về mail mà bạn đã đăng kí. Trong trường hợp hệ
+                                thống quá tải sẽ không có mail gửi về. <br>
+                                <br>
+            </div>
+           </div>
+        <a id="danhgia" href="#danhgia">
+            <h1>Đánh giá</h1>
+        </a>
+        <div class="row align-items-start">
+            <div class="col-3" style="margin: auto;margin-left: 40px;" align="justify">
+                <div class="cmt"> <img src="~/Image/user.png" width="40px"
+                        style="border: solid 1px black;border-radius: 15px;float: left;" alt=""></div>
+                <p style="padding: 8px;float: left;">Chang: Sản phẩm tốt đẹp giá rẻ</p>
+            </div>
+            <div class="col-3" style="margin: auto;margin-left: 40px;" align="justify">
+                <div class="cmt"> <img src="~/Image/user.png" width="40px"
+                        style="border: solid 1px black;border-radius: 15px;float: left;" alt=""></div>
+                <p style="padding: 8px;float: left;">Kiên: Tốt</p>
+            </div>
+            <div class="col-3" style="margin: auto;margin-left: 40px;" align="justify">
+                <div class="cmt"> <img src="~/Image/user.png" width="40px"
+                        style="border: solid 1px black;border-radius: 15px;float: left;" alt=""></div>
+                <p style="padding: 8px;float: left;">Hiếu: Quá đẹp anh ơi</p>
+            </div>
+            <div class="col-3" style="margin: auto;margin-left: 40px;" align="justify">
+                <div class="cmt"> <img src="~/Image/user.png" width="40px"
+                        style="border: solid 1px black;border-radius: 15px;float: left;" alt=""></div>
+                <p style="padding: 8px;float: left;">Đức Anh: Mua ủng hộ anh ĐỘ</p>
+            </div>
+            <div class="col-3" style="margin: auto;margin-left: 40px;" align="justify">
+                <div class="cmt"> <img src="~/Image/user.png" width="40px"
+                        style="border: solid 1px black;border-radius: 15px;float: left;" alt=""></div>
+                <p style="padding: 8px;float: left;">Đức Anh: Mua ủng hộ anh ĐỘ</p>
+            </div>
+            <div class="col-3" style="margin: auto;margin-left: 40px;" align="justify">
+                <div class="cmt"> <img src="~/Image/user.png" width="40px"
+                        style="border: solid 1px black;border-radius: 15px;float: left;" alt=""></div>
+                <p style="padding: 8px;float: left;">Đức Anh: Mua ủng hộ anh ĐỘ</p>
+            </div>
+
+        </div>
+        <div class="container text-center">
+            <div class="row align-items-start">
+                <h3>Thêm đánh giá</h3>
+                <div class="input-group mb-3">
+                    <p style="margin:4px">Nhập tên: </p>
+                    <input type="text" class="form-control" placeholder="Nhập tên của bạn"
+                        aria-label="Example text with button addon" aria-describedby="button-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <p style="margin:4px">Số điện thoại: </p>
+                    <input type="text" class="form-control" placeholder="Recipient's username"
+                        aria-label="Nhập số" aria-describedby="button-addon2">
+                </div>
+
+                <div class="input-group mb-3">
+                    <p style="margin:4px">Email: </p>
+                    <input type="text" class="form-control" placeholder=""
+                        aria-label="Email">
+                </div>
+
+                <div class="input-group">
+                    <p style="margin:4px">Nhận xét: </p>
+                    <input type="text" class="form-control" placeholder="Recipient's username"
+                        aria-label="Nhận xét">
+                </div>
+                <div class="input-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault" align="justify">
+                            Lưu tên của tôi, email, và trang web trong trình duyệt này cho lần bình luận kế tiếp của
+                            tôi.
+                        </label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <button type="button" class="btn btn-secondary" style="margin-left: 20px;width: 200px;">Gửi đi</button>
+                </div>
+            </div>
 </div>

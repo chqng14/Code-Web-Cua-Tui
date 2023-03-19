@@ -34,7 +34,10 @@ namespace CodeWebCuaTui.Controllers
         public IActionResult Details(Guid id)
         {
             CodeWebCuaTuiDbContex contex = new CodeWebCuaTuiDbContex();
-            var Product = contex.Product.Find(id);
+            var Product = contex.Product.Where(c => c.ID == id).Include("Color").Include("Images").Include("Sizes").Include("Category").Include("Suppliers").FirstOrDefault();
+            return View(Product);
+            //var Product = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+            // .Include("Suppliers").FirstOrDefault(c => c.ID == id);
             return View(Product);
         }
         public IActionResult About()

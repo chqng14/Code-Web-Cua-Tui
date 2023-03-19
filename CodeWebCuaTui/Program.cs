@@ -9,6 +9,7 @@ builder.Services.AddTransient<ICategoryServices, CategoryServices>();
 builder.Services.AddTransient<IColorServices, ColorServices>();
 builder.Services.AddTransient<IImageServices, ImagesServices>();
 builder.Services.AddTransient<ISupplierServices, SupplierServices>();
+builder.Services.AddTransient<IProductServices, ProductServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
