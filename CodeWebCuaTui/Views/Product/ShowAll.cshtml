@@ -52,6 +52,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
+                            
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
@@ -95,7 +96,7 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+            @string.Format("{0:N0}đ", item.Price)
             </td>
             <td>
           @(item.Status == 0 ? "Hoạt động" : "Không hoạt động")

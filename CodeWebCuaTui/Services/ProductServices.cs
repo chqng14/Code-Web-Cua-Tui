@@ -14,6 +14,7 @@ namespace CodeWebCuaTui.Services
         {
             try
             {
+                p.ProductCode = Matt();
                 _context.Product.Add(p);
                 _context.SaveChanges();
                 return true;
@@ -24,7 +25,14 @@ namespace CodeWebCuaTui.Services
                 return false;
             }
         }
-
+        public string Matt()
+        {
+            if (_context.Product.Count() == 0)
+            {
+                return "Mixi1";
+            }
+            else return "Mixi" + _context.Product.Max(c => Convert.ToInt32(c.ProductCode.Substring(4, c.ProductCode.Length - 4)) + 1);
+        }
         public bool DeleteProduct(Guid id)
         {
             try
@@ -55,7 +63,7 @@ namespace CodeWebCuaTui.Services
 
         public List<Product> GetProductByName(string name)
         {
-            return _context.Product.Where(c=>c.Name.Contains(name)).ToList();
+            return _context.Product.Where(c => c.Name.Contains(name)).ToList();
         }
 
         public bool UpdateProduct(Product p)

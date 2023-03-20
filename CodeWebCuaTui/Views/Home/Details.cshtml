@@ -26,11 +26,11 @@
                               <ul id="thumbnail">
                                 <li><image src="@Html.DisplayFor(model => model.Images.Path1) "  width="70"></image>
                                 </li>
-                                <li><image src="@Html.DisplayFor(model => model.Images.Path1)"  width="70"></image>
+                                <li><image src="@Html.DisplayFor(model => model.Images.Path2)"  width="70"></image>
                                 </li>
-                                <li><image src="@Html.DisplayFor(model => model.Images.Path1)" width="70"></image>
+                                <li><image src="@Html.DisplayFor(model => model.Images.Path3)" width="70"></image>
                                 </li>
-                                <li><image src="@Html.DisplayFor(model => model.Images.Path1)" width="70"></image>
+                                <li><image src="@Html.DisplayFor(model => model.Images.Path4)" width="70"></image>
                                 </li>
                             </ul>
                             <img style="margin-left: 270px ;" src="~/Image/Logo.jpg" alt="">
@@ -47,7 +47,7 @@
                                 alt="..."> <br>
                             <a href="#danhgia">(14 đánh giá của khách hàng)</a>
                         </div>
-                        <h3 style="margin-top: 10px;"> @Html.DisplayFor(model => model.Price ) Đ </h3>
+                        <h3 style="margin-top: 10px;"> @string.Format("{0:N0}đ", Model.Price)  </h3>
                         <p>Bảng chi tiết size</p>
                         <img src="~/Image/size.png" alt="">
                         <div class="col-8" style="margin-top: 5px;" align="justify">

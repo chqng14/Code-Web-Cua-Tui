@@ -18,8 +18,8 @@
              {
                <div class="col-3 col-md-3" style="margin: auto;"  >
                  <div class="khung" style="position: relative;">
-                 <img class="anhsp" style="border: 0px;" class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
-                     alt="Hình ảnh" style="width:50px">
+                 <img class="anhsp" style="border: 0px;"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
+                     alt="Hình ảnh" width="50px" height="350px" >
                  </div>  
                  <br>
                 <p style="color: rgb(24, 1, 1);" class="theloai"> @Html.DisplayFor(modelItem => item.Category.Name)</p>
@@ -30,7 +30,7 @@
                      @string.Format("{0:N0}đ", item.Price)
                 </Strong>
                </div>
-                 
+
              }
      </div>
   
