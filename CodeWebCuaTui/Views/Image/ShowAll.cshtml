@@ -16,9 +16,6 @@
                 @Html.DisplayNameFor(model => model.ID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -46,22 +43,19 @@
                 @Html.DisplayFor(modelItem => item.ID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Path1)
+                <img src="@Url.Content(item.Path1)" alt="Hình ảnh" style="width:50px">
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Path2)
+                  <img src="@Url.Content(item.Path2)" alt="Hình ảnh" style="width:50px">
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Path3)
+                  <img src="@Url.Content(item.Path3)" alt="Hình ảnh" style="width:50px">
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Path4)
+                <img src="@Url.Content(item.Path4)" alt="Hình ảnh" style="width:50px">
             </td>
             <td>
         @(item.Status == 0 ? "Hoạt động" : "Không hoạt động")
