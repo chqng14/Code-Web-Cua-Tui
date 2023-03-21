@@ -22,10 +22,15 @@ namespace CodeWebCuaTui.Controllers
 
         public IActionResult Index()
         {
-            var Product = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-               .Include("Suppliers").ToList();
-            return View(Product);
+            var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                       .Include("Suppliers").Take(4).ToList();
+            var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                        .Include("Suppliers").OrderByDescending(c => c.Price).Take(4).ToList();
+            ViewBag.Product1 = Product1;
+            ViewBag.Product2 = Product2;
+            return View();
         }
+
 
         public IActionResult Privacy()
         {
@@ -51,6 +56,41 @@ namespace CodeWebCuaTui.Controllers
         public IActionResult SignUp()
         {
 
+            return View();
+        }
+        public IActionResult ShowAll()
+        {
+            var ProductShowAll = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                        .Include("Suppliers").ToList();
+            var ProductLocGiaCao = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                        .Include("Suppliers").OrderByDescending(c => c.Price).ToList();
+            var ProductLocGiaThap = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                       .Include("Suppliers").OrderBy(c => c.Price).ToList();
+            ViewBag.ProductShowAll = ProductShowAll;
+            ViewBag.ProductLocGiaCao = ProductLocGiaCao;
+            ViewBag.ProductLocGiaThap = ProductLocGiaThap;
+            return View();
+        }
+        public IActionResult AoCoc()
+        {
+            Guid a = Guid.Parse("622e8e8d-084f-409a-132a-08db26fd3333");
+            var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                      .Include("Suppliers").Where(c => c.CategoryID == a).ToList();
+            var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                     .Include("Suppliers").Take(3).ToList();
+            ViewBag.Product1 = Product1;
+            ViewBag.Product2 = Product2;
+            return View();
+        }
+        public IActionResult AoDai()
+        {
+            Guid a = Guid.Parse("b68796a0-88d1-4d89-f59c-08db26fd59db");
+            var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                      .Include("Suppliers").Where(c => c.CategoryID == a).ToList();
+            var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                     .Include("Suppliers").Take(3).ToList();
+            ViewBag.Product1 = Product1;
+            ViewBag.Product2 = Product2;
             return View();
         }
         public IActionResult ForgotPass()

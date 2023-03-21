@@ -1,0 +1,88 @@
+﻿@model IEnumerable<CodeWebCuaTui.Models.Product>
+
+@{
+    ViewData["Title"] = "ShowAll";
+}
+@{
+    var ProductShowAll = ViewBag.ProductShowAll as List<Product>;
+    var ProductLocGiaCao = ViewBag.ProductLocGiaCao as List<Product>;
+    var ProductLocGiaThap = ViewBag.ProductLocGiaThap as List<Product>;
+}
+<!--article  -->
+    <div class="container " style="margin-top:20px;">
+        <div class="row align-items-start">
+            <div class="col-4 col-md-4" style="margin: auto;">
+                <h3>Tất cả sản phẩm</h3>
+                <a href="index.html">Tất cả sản phẩm</a>/ <strong></strong>
+            </div>
+            <div class="col-4 col-md-4">
+                <p align="right" style="padding-top: 7px;">Hiển thị 1-12 của 19 kết quả</p>
+            </div>
+            <div class="col-4 col-md-4">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Thứ tự theo điểm đánh giá</option>
+                    <option value="1">Mới nhất</option>
+                    <option value="2">Thứ tự theo giá: thấp tới cao</option>
+                    <option value="3">Thứ tự theo giá: cao tới thấp</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center" style="margin-top:20px;padding-top: 50px;">
+        <div class="row align-items-start">
+            <div class="col-3 col-md-3">
+                <div class="card" style="width: 18rem;" align="justify">
+
+                    <div class="card-body">
+                        <label for="customRange2" class="form-label">Lọc theo giá</label>
+                        <input type="range" class="form-range" min="0" max="5" id="customRange2">
+                        <button type="button" class="btn btn-secondary">Lọc</button>
+                        <p style="float: right;padding-top: 9px;">Giá 220.000đ - 500.000 đ</p>
+                        <br><br>
+                        <p class="card-text" style="font-weight: 500; font-size: larger;">Danh mục sản phẩm</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="">Áo cộc </a></li>
+                        <li class="list-group-item"><a href="">Áo dài</a></li>
+                        <li class="list-group-item"><a href="">Áo Mixi</a></li>
+                        <li class="list-group-item"><a href="">Áo Pubg</a></li>
+                        <li class="list-group-item"><a href="">Áo Refund Gaming</a></li>
+                        <li class="list-group-item"><a href="">Đồ lưu niệm Mixi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-9 col-md-9">
+                  <div class="row align-items-start">
+          @foreach (var item in ProductShowAll)
+             {
+               <div class="col-4 col-md-4" style="margin: auto;"  >
+                 <div class="khung" style="position: relative;">
+                 <img class="anhsp" style="border: 0px;"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
+                     alt="Hình ảnh" width="50px" height="350px" >
+                 </div>  
+                 <br>
+                <p style="color: rgb(24, 1, 1);" class="theloai"> @Html.DisplayFor(modelItem => item.Category.Name)</p>
+                      <a class="linksp">  @Html.ActionLink(item.Name, "Details", new { id=item.ID })</a> <br>
+  @*              <a class="linksp" asp-area="" asp-controller="Home" asp-action="Details"> @Html.DisplayFor(modelItem => item.Name)</a><br>*@
+                <img src="~/Image/stars.png" style="border: 0px; width: 60px;" class="img-thumbnail" alt="...">
+                <p><Strong>
+                     @string.Format("{0:N0}đ", item.Price)
+                </Strong>
+               </div>
+
+             }
+     </div>
+                    <div class="button">
+                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-primary">1</button>
+                                <button type="button" class="btn btn-primary">2</button>
+                                <button type="button" class="btn btn-primary">3</button>
+                                <button type="button" class="btn btn-primary">4</button>
+                            </div>
+                            <button type="button" class="btn btn-primary">></button>
+                        </div>
+                    </div>
+       
+            </div>
+    </div>

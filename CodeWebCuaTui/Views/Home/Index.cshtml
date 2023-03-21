@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<CodeWebCuaTui.Models.Product>
 @{
     ViewData["Title"] = "Home Page";
-}   
-
-     
+     var Product1 = ViewBag.Product1 as List<Product>;
+    var Product2 = ViewBag.Product2 as List<Product>;
+}     
 
      <img src="~/Image/bannerMixishopnew.png" class="img-fluid" width="100%" alt="..." style="margin: auto">
  
@@ -14,12 +14,13 @@
 <br>
 <div class="container text-center">
      <div class="row align-items-start">
-          @foreach (var item in Model)
+          @foreach (var item in Product1)
              {
                <div class="col-3 col-md-3" style="margin: auto;"  >
                  <div class="khung" style="position: relative;">
-                 <img class="anhsp" style="border: 0px;"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
-                     alt="Hình ảnh" width="50px" height="350px" >
+                 <img class="anhsp" style="border: 0px;width:260px;height:350px"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
+                     alt="Hình ảnh"  >
+                         <div class="trangthaimoi"><Span class="label">Hot</Span></div>
                  </div>  
                  <br>
                 <p style="color: rgb(24, 1, 1);" class="theloai"> @Html.DisplayFor(modelItem => item.Category.Name)</p>
@@ -33,7 +34,33 @@
 
              }
      </div>
-  
+</div>
+<div align="center">
+    <h1>Sản phẩm mới</h1>
+</div>
+<br>
+<div class="container text-center">
+     <div class="row align-items-start">
+          @foreach (var item in Product2)
+             {
+               <div class="col-3 col-md-3" style="margin: auto;"  >
+                 <div class="khung" style="position: relative;">
+                 <img class="anhsp" style="border: 0px;width:260px;height:350px"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
+                     alt="Hình ảnh" width="260" height="350" >
+                        <div class="trangthai"><Span class="label">New</Span></div>
+                 </div>  
+                 <br>
+                <p style="color: rgb(24, 1, 1);" class="theloai"> @Html.DisplayFor(modelItem => item.Category.Name)</p>
+                      <a class="linksp">  @Html.ActionLink(item.Name, "Details", new { id=item.ID })</a> <br>
+  @*              <a class="linksp" asp-area="" asp-controller="Home" asp-action="Details"> @Html.DisplayFor(modelItem => item.Name)</a><br>*@
+                <img src="Image/stars.png" style="border: 0px; width: 60px;" class="img-thumbnail" alt="...">
+                <p><Strong>
+                     @string.Format("{0:N0}đ", item.Price)
+                </Strong>
+               </div>
+
+             }
+     </div>
 </div>
 <div class="container text-center">
     <br>
