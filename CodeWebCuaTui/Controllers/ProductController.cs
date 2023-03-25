@@ -86,11 +86,22 @@ namespace CodeWebCuaTui.Controllers
         }
         public IActionResult Edit(Product Product)
         {
+            ViewBag.Colors = new SelectList(_ColorService.GetAllColors(), "ID", "Name");
+            ViewBag.Categories = new SelectList(_CategoryService.GetAllCategorys(), "ID", "Name");
+            ViewBag.Suppliers = new SelectList(_SupplierService.GetAllSuppliers(), "ID", "Name");
+            ViewBag.Sizes = new SelectList(_SizeService.GetAllSizes(), "ID", "Name");
+            ViewBag.Images = new SelectList(_ImageService.GetAllImagess(), "ID", "Name");
             if (_Product.UpdateProduct(Product))
             {
                 return RedirectToAction("ShowAll");
+
             }
-            else return BadRequest();
+            else
+            {
+                TempData["AlertMessage"] = "Looiiiiiiiiiiiiiiiiii";
+                return View();
+            }
+
         }
         public IActionResult Delete(Guid id)
         {
@@ -100,6 +111,7 @@ namespace CodeWebCuaTui.Controllers
             }
             else return BadRequest();
         }
+        public int MyProperty { get; set; }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

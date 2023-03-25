@@ -1,5 +1,7 @@
 ﻿using CodeWebCuaTui.Models;
 using CodeWebCuaTui.IServices;
+using System.Diagnostics.Metrics;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeWebCuaTui.Services
 {
@@ -53,7 +55,8 @@ namespace CodeWebCuaTui.Services
         {
             List<Product> lst = new List<Product>();
 
-            return _context.Product.ToList();
+            return _context.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                        .Include("Suppliers").ToList();
         }
 
         public Product GetProductById(Guid id)
@@ -70,22 +73,27 @@ namespace CodeWebCuaTui.Services
         {
             try
             {
+
                 var a = _context.Product.Find(p.ID);
-                a.ColorID = p.ColorID;
-                a.SizeID = p.SizeID;
-                a.ProductCode = p.ProductCode;
-                a.Name = p.Name;
-                a.SupplierID = p.SupplierID;
-                a.CategoryID = p.CategoryID;
-                a.ProductCode = p.ProductCode;
-                a.Describe = p.Describe;
-                a.Quantity = p.Quantity;
-                a.Price = p.Price;
-                a.ImageID = p.ImageID;
-                a.Status = p.Status;
-                _context.Product.Update(a);
-                _context.SaveChanges();
-                return true;
+                if (a.Price > p.Price)
+                {
+                    a.ColorID = p.ColorID;
+                    a.SizeID = p.SizeID;
+                    a.ProductCode = p.ProductCode;
+                    a.Name = p.Name;
+                    a.SupplierID = p.SupplierID;
+                    a.CategoryID = p.CategoryID;
+                    a.ProductCode = p.ProductCode;
+                    a.Describe = p.Describe;
+                    a.Quantity = p.Quantity;
+                    a.Price = p.Price;
+                    a.ImageID = p.ImageID;
+                    a.Status = p.Status;
+                    _context.Product.Update(a);
+                    _context.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception)
             {

@@ -10,8 +10,13 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ID" class="control-label"></label>
+                <input asp-for="ID" class="form-control" />
+                <span asp-validation-for="ID" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -19,23 +24,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="Path1" class="control-label"></label>
-                <input asp-for="Path1" class="form-control" />
+                <input asp-for="Path1" class="form-control" type="file" name="image1" id="fileUpload" accept=".png, .jpg, .jpeg" onchange="previewImage()" style="max-width: 160px;"/>                     
                 <span asp-validation-for="Path1" class="text-danger"></span>
+               <img id="imgPreview"  width="200px">
+             
             </div>
             <div class="form-group">
                 <label asp-for="Path2" class="control-label"></label>
-                <input asp-for="Path2" class="form-control" />
+                <input asp-for="Path2" class="form-control" type="file" name="image2" id="fileUpload1" accept=".png, .jpg, .jpeg" onchange="previewImage()" style="max-width: 160px;"/>                     
                 <span asp-validation-for="Path2" class="text-danger"></span>
+                  <img id="imgPreview1" width="200px">
             </div>
             <div class="form-group">
                 <label asp-for="Path3" class="control-label"></label>
-                <input asp-for="Path3" class="form-control" />
+      <input asp-for="Path3" class="form-control" type="file" name="image3" id="fileUpload2" accept=".png, .jpg, .jpeg" onchange="previewImage()" style="max-width: 160px;"/>                     
                 <span asp-validation-for="Path3" class="text-danger"></span>
+                  <img id="imgPreview2" width="200px">
             </div>
             <div class="form-group">
                 <label asp-for="Path4" class="control-label"></label>
-                <input asp-for="Path4" class="form-control" />
+       <input asp-for="Path4" class="form-control" type="file" name="image4" id="fileUpload3" accept=".png, .jpg, .jpeg" onchange="previewImage()" style="max-width: 160px;"/>                     
                 <span asp-validation-for="Path4" class="text-danger"></span>
+                  <img id="imgPreview3" width="200px">
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
@@ -50,8 +60,55 @@
 </div>
 
 <div>
-    <a asp-action="ShowAll">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
+    <script>
+    function previewImage() {
+        var fileUpload = document.getElementById("fileUpload");
+    var imgPreview = document.getElementById("imgPreview");
+
+    if (fileUpload.files && fileUpload.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            imgPreview.src = e.target.result;
+        }
+        reader.readAsDataURL(fileUpload.files[0]);
+    }
+
+    var fileUpload1 = document.getElementById("fileUpload1");
+    var imgPreview1 = document.getElementById("imgPreview1");
+
+    if (fileUpload1.files && fileUpload1.files[0]) {
+        var reader1 = new FileReader();
+        reader1.onload = function (e) {
+            imgPreview1.src = e.target.result;
+        }
+        reader1.readAsDataURL(fileUpload1.files[0]);
+    }
+
+    var fileUpload2 = document.getElementById("fileUpload2");
+    var imgPreview2 = document.getElementById("imgPreview2");
+
+    if (fileUpload2.files && fileUpload2.files[0]) {
+        var reader2 = new FileReader();
+        reader2.onload = function (e) {
+            imgPreview2.src = e.target.result;
+        }
+        reader2.readAsDataURL(fileUpload2.files[0]);
+    }
+
+    var fileUpload3 = document.getElementById("fileUpload3");
+    var imgPreview3 = document.getElementById("imgPreview3");
+
+    if (fileUpload3.files && fileUpload3.files[0]) {
+        var reader3 = new FileReader();
+        reader3.onload = function (e) {
+            imgPreview3.src = e.target.result;
+        }
+        reader3.readAsDataURL(fileUpload3.files[0]);
+    }
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

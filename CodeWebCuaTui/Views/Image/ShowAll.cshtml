@@ -46,16 +46,16 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <img src="@Url.Content(item.Path1)" alt="Hình ảnh" style="width:50px">
+                <img src="@Html.DisplayFor(modelItem => item.Path1)" alt="Hình ảnh" style="width:50px">
             </td>
             <td>
-                  <img src="@Url.Content(item.Path2)" alt="Hình ảnh" style="width:50px">
+                  <img src="@Html.DisplayFor(modelItem => item.Path2)" alt="Hình ảnh" style="width:50px">
             </td>
             <td>
-                  <img src="@Url.Content(item.Path3)" alt="Hình ảnh" style="width:50px">
+                  <img src="@Html.DisplayFor(modelItem => item.Path3)" alt="Hình ảnh" style="width:50px">
             </td>
             <td>
-                <img src="@Url.Content(item.Path4)" alt="Hình ảnh" style="width:50px">
+                <img src="@Html.DisplayFor(modelItem => item.Path4)" alt="Hình ảnh" style="width:50px">
             </td>
             <td>
         @(item.Status == 0 ? "Hoạt động" : "Không hoạt động")

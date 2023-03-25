@@ -13,6 +13,7 @@ namespace CodeWebCuaTui.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IProductServices _Product;
         private CodeWebCuaTuiDbContex contex;
+        private List<Product> _lstproduct;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -26,8 +27,11 @@ namespace CodeWebCuaTui.Controllers
                        .Include("Suppliers").Take(4).ToList();
             var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
                         .Include("Suppliers").OrderByDescending(c => c.Price).Take(4).ToList();
+            var Product3 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                       .Include("Suppliers").Where(c => c.Status < 3).ToList();
             ViewBag.Product1 = Product1;
             ViewBag.Product2 = Product2;
+            ViewBag.Product3 = Product3;
             return View();
         }
 
@@ -60,8 +64,7 @@ namespace CodeWebCuaTui.Controllers
         }
         public IActionResult ShowAll()
         {
-            var ProductShowAll = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                        .Include("Suppliers").ToList();
+            var ProductShowAll = _Product.GetAllProducts();
             var ProductLocGiaCao = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
                         .Include("Suppliers").OrderByDescending(c => c.Price).ToList();
             var ProductLocGiaThap = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
@@ -71,6 +74,7 @@ namespace CodeWebCuaTui.Controllers
             ViewBag.ProductLocGiaThap = ProductLocGiaThap;
             return View();
         }
+
         public IActionResult AoCoc()
         {
             Guid a = Guid.Parse("622e8e8d-084f-409a-132a-08db26fd3333");
