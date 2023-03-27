@@ -14,6 +14,8 @@ namespace CodeWebCuaTui.Services
         {
             try
             {
+                p.Code = Matt();
+                p.Status = 0;
                 _context.Users.Add(p);
                 _context.SaveChanges();
                 return true;
@@ -40,7 +42,14 @@ namespace CodeWebCuaTui.Services
                 return false;
             }
         }
-
+        public string Matt()
+        {
+            if (_context.Users.Count() == 0)
+            {
+                return "USER1";
+            }
+            else return "USER" + _context.Users.Max(c => Convert.ToInt32(c.Code.Substring(4, c.Code.Length - 4)) + 1);
+        }
         public List<User> GetAllUsers()
         {
             return _context.Users.ToList();

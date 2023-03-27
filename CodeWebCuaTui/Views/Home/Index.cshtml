@@ -63,32 +63,6 @@
              }
      </div>
 </div>
-<div align="center">
-    <h1>Status < 0</h1>
-</div>
-<div class="container text-center">
-     <div class="row align-items-start">
-          @foreach (var item in Product3)
-             {
-               <div class="col-3 col-md-3" style="margin: auto;"  >
-                 <div class="khung" style="position: relative;">
-                 <img class="anhsp" style="border: 0px;width:260px;height:350px"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
-                     alt="Hình ảnh" width="260" height="350" >
-                        <div class="trangthai"><Span class="label">New</Span></div>
-                 </div>  
-                 <br>
-                <p style="color: rgb(24, 1, 1);" class="theloai"> @Html.DisplayFor(modelItem => item.Category.Name)</p>
-                      <a class="linksp">  @Html.ActionLink(item.Name, "Details", new { id=item.ID })</a> <br>
-  @*              <a class="linksp" asp-area="" asp-controller="Home" asp-action="Details"> @Html.DisplayFor(modelItem => item.Name)</a><br>*@
-                <img src="Image/stars.png" style="border: 0px; width: 60px;" class="img-thumbnail" alt="...">
-                <p><Strong>
-                     @string.Format("{0:N0}đ", item.Price)
-                </Strong>
-               </div>
-
-             }
-     </div>
-</div>
 <div class="container text-center">
     <br>
    <div class="row align-items-start">

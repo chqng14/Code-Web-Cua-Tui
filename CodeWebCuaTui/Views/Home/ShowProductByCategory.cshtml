@@ -1,18 +1,14 @@
-﻿@model IEnumerable<CodeWebCuaTui.Models.Product>
+﻿@model CodeWebCuaTui.ViewModel.ProductCategoryModel
+@{
+    ViewData["Title"] = "ShowProductByCategory";
+}
 
-@{
-    ViewData["Title"] = "AoCoc";
-}
-@{
-    var Product1 = ViewBag.Product1 as List<Product>;
-    var Product2 = ViewBag.Product2 as List<Product>;
-}
-<!--article  -->
-    <div class="container " style="margin-top:20px;;">
+
+  <div class="container " style="margin-top:20px;">
         <div class="row align-items-start">
             <div class="col-4 col-md-4" style="margin: auto;">
-                <h3>Áo cộc</h3>
-                <a href="index.html">Trang Chủ</a>/ <strong>Áo cộc</strong>
+                <h3>Tất cả sản phẩm</h3>
+                <a href="index.html">Tất cả sản phẩm</a>/ <strong></strong>
             </div>
             <div class="col-4 col-md-4">
                 <p align="right" style="padding-top: 7px;">Hiển thị 1-12 của 19 kết quả</p>
@@ -41,18 +37,21 @@
                         <p class="card-text" style="font-weight: 500; font-size: larger;">Danh mục sản phẩm</p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><a  asp-area="" asp-controller="Home" asp-action="AoCoc">Áo cộc </a></li>
-                        <li class="list-group-item"><a asp-area="" asp-controller="Home" asp-action="AoDai">Áo dài</a></li>
+                        @foreach (var item in Model.categories)
+                            {
+                              <li class="list-group-item"> @Html.ActionLink(item.Name,"ShowProductByCategory","Home",new{@id=item.ID} )</li>            
+                            }
+                      
                     </ul>
                 </div>
             </div>
             <div class="col-9 col-md-9">
                   <div class="row align-items-start">
-          @foreach (var item in Product1)
+          @foreach (var item in Model.products)
              {
                <div class="col-4 col-md-4" style="margin: auto;"  >
                  <div class="khung" style="position: relative;">
-                   <img class="anhsp" style="border: 0px;width:260px;height:350px"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
+                <img class="anhsp" style="border: 0px;width:260px;height:350px"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
                      alt="Hình ảnh" width="260" height="350" >
                  </div>  
                  <br>
@@ -66,7 +65,6 @@
                </div>
 
              }
-            
      </div>
                     <div class="button">
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">

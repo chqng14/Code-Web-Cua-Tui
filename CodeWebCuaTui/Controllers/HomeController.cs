@@ -1,6 +1,7 @@
 ﻿using CodeWebCuaTui.IServices;
 using CodeWebCuaTui.Models;
 using CodeWebCuaTui.Services;
+using CodeWebCuaTui.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -12,26 +13,34 @@ namespace CodeWebCuaTui.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductServices _Product;
+        private readonly ICategoryServices _Category;
         private CodeWebCuaTuiDbContex contex;
         private List<Product> _lstproduct;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
             _Product = new ProductServices();
+            _Category = new CategoryServices();
             contex = new CodeWebCuaTuiDbContex();
         }
 
         public IActionResult Index()
         {
             var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                       .Include("Suppliers").Take(4).ToList();
+                   .Include("Suppliers").Take(4).ToList();
             var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
                         .Include("Suppliers").OrderByDescending(c => c.Price).Take(4).ToList();
-            var Product3 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                       .Include("Suppliers").Where(c => c.Status < 3).ToList();
             ViewBag.Product1 = Product1;
             ViewBag.Product2 = Product2;
-            ViewBag.Product3 = Product3;
+            string acc = HttpContext.Session.GetString("acc");
+            if (acc != null)
+            {
+                return View(Product1);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User");
+            }
             return View();
         }
 
@@ -55,6 +64,7 @@ namespace CodeWebCuaTui.Controllers
         }
         public IActionResult Login()
         {
+
             return View();
         }
         public IActionResult SignUp()
@@ -64,39 +74,15 @@ namespace CodeWebCuaTui.Controllers
         }
         public IActionResult ShowAll()
         {
-            var ProductShowAll = _Product.GetAllProducts();
-            var ProductLocGiaCao = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                        .Include("Suppliers").OrderByDescending(c => c.Price).ToList();
-            var ProductLocGiaThap = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                       .Include("Suppliers").OrderBy(c => c.Price).ToList();
-            ViewBag.ProductShowAll = ProductShowAll;
-            ViewBag.ProductLocGiaCao = ProductLocGiaCao;
-            ViewBag.ProductLocGiaThap = ProductLocGiaThap;
-            return View();
+            var viewModel = new ProductCategoryModel
+            {
+                products = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                        .Include("Suppliers").OrderByDescending(c => c.Price).ToList(),
+                categories = contex.Categories.ToList()
+            };
+            return View(viewModel);
         }
 
-        public IActionResult AoCoc()
-        {
-            Guid a = Guid.Parse("622e8e8d-084f-409a-132a-08db26fd3333");
-            var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                      .Include("Suppliers").Where(c => c.CategoryID == a).ToList();
-            var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                     .Include("Suppliers").Take(3).ToList();
-            ViewBag.Product1 = Product1;
-            ViewBag.Product2 = Product2;
-            return View();
-        }
-        public IActionResult AoDai()
-        {
-            Guid a = Guid.Parse("b68796a0-88d1-4d89-f59c-08db26fd59db");
-            var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                      .Include("Suppliers").Where(c => c.CategoryID == a).ToList();
-            var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                     .Include("Suppliers").Take(3).ToList();
-            ViewBag.Product1 = Product1;
-            ViewBag.Product2 = Product2;
-            return View();
-        }
         public IActionResult ForgotPass()
         {
 
@@ -104,7 +90,25 @@ namespace CodeWebCuaTui.Controllers
         }
         public IActionResult Admin()
         {
-            return View();
+            string acc = HttpContext.Session.GetString("acc");
+            if (acc != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "User");
+            }
+        }
+        public IActionResult ShowProductByCategory(Guid id)
+        {
+            var viewModel = new ProductCategoryModel
+            {
+                products = contex.Product.Include(c => c.Color).Include(c => c.Images).Include(c => c.Sizes).Include(c => c.Category).Include(c => c.Suppliers).Where(c => c.CategoryID == id).ToList(),
+                categories = contex.Categories.ToList(),
+                CategoryName = _Category.GetCategoryById(id).Name
+            };
+            return View(viewModel);
         }
         public IActionResult Cart()
         {

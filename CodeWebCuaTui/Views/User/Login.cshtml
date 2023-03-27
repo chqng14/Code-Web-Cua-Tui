@@ -1,6 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CodeWebCuaTui.Models.User;
 @{
 }
    <!--article  -->
@@ -14,18 +12,27 @@
                             <div class="mb-md-5 mt-md-4 pb-5">
 
                                 <h2 class="fw-bold mb-2 text-uppercase" style="font-size: 50px;">Đăng nhập</h2>
-                                <p class="text-dark-50 mb-5" style="font-size: 30px;">Nhập tài khoản và mật khẩu!</p>
+                                @using (Html.BeginForm("Login", "User", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.LabelFor(m => m)
+                                @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "Account" })
 
-                                <div class="form-outline form-dark mb-4">
-                                    <input type="email" id="typeEmailX" class="form-control form-control-lg" />
-                                    <label class="form-label" for="typeEmailX" style="font-size: 20px;">Email</label>
-                                </div>
-
-                                <div class="form-outline form-dark mb-4">
-                                    <input type="password" id="typePasswordX" class="form-control form-control-lg" />
-                                    <label class="form-label" for="typePasswordX" style="font-size: 20px;">Mật
-                                        khẩu</label>
-                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Password)
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="submit" class="btn btn-primary" asp-controller="User" asp-action="Login" value="Login" />
+                            </div>
+                        }
+                        <div>
+                            <p class="mb-0" style="font-size: 20px;">
+                                Chưa có tài khoản? <a href="#signup" class="text-dark-50 fw-bold">Sign Up</a>
+                            </p>
+                        </div>
 
                                 <p class="small mb-5 pb-lg-2"><a class="text-dark-50"  data-mdb-toggle="modal"
                                         data-mdb-target="#exampleModal" style="font-size: 20px;" asp-area="" asp-controller="Home" asp-action="ForgotPass" >Quên mật khẩu?</a></p>
