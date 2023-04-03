@@ -11,7 +11,10 @@
 @if(TempData["bug"] != null) {
     <div class="alert alert-danger">@TempData["bug"]</div>
 }
-
+@if(TempData["quantityCart"]!=null)
+{
+     <div class="alert alert-danger">@TempData["quantityCart"]</div>
+}
     <section class="h-100 h-custom" >
         <div class="container h-100 py-5">
           <div class="row d-flex justify-content-center align-items-center h-100">
@@ -26,6 +29,7 @@
                       <th scope="col">Số lượng</th>  
                       <th scope="col">Đơn giá</th>
                       <th scope="col">Tạm tính</th>
+                      <th scope="col">   <p>@Html.ActionLink("Xóa toàn bộ giỏ hàng","DeleteAllCart","Cart"  )</p></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -46,29 +50,41 @@
                         <p class="mb-0" style="font-weight: 500;">   @Html.DisplayFor(modelItem => item.CategoryName)</p>
                       </td>
                       <td class="align-middle">
-                        <div class="d-flex flex-row">
+                          <form method="post" asp-action="UpdateCart" asp-controller="Cart">
+                            <div class="d-flex flex-row">
                           <button class="btn btn-link px-2"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                            <i class="fas fa-minus"></i>
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()" value="dec" name="dec">
+                            <i class="fas fa-minus">-</i>
                           </button>
       
-                          <input id="form1" min="0" name="quantity" value="@Html.DisplayFor(modelItem => item.Quantity)" type="number"
-                            class="form-control form-control-sm" style="width: 70px;" />
+                          <input id="form1" min="1"  name="quantity" value="@Html.DisplayFor(modelItem => item.Quantity)"  type="number"
+                            class="form-control form-control-sm" style="width: 70px;" readonly />
       
                           <button class="btn btn-link px-2"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                            <i class="fas fa-plus"></i>
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()" value="inc" name="inc">
+                            <i class="fas fa-plus">+</i>
                           </button>
                         </div>
+                        <input type="hidden" name="ProductID" value="@item.ProductID" />
+                          </form>
+                        
                       </td>
                         <td class="align-middle">
                      <p class="mb-0" style="font-weight: 500;">@((item.Price).ToString("N0")) đồng</p>
                       </td>
                       <td class="align-middle">
-                     <p class="mb-0" style="font-weight: 500;">@((item.Price*item.Quantity).ToString("N0")) đồng</p>
+                     <p class="mb-0" style="font-weight: 500;">@((item.Price*item.Quantity).ToString("N0")) đồng  </p>
+                 
                       </td>
-                    </tr>
-
+                      <td class="align-middle">
+                      <p>@Html.ActionLink("Xóa","DeleteCart","Cart",new {id=item.ProductID}  )</p>
+                     @*   <form action="@Url.Action("DeleteCart", "Cart")" method="post">
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <button type="submit">Xóa sản phẩm</button>
+                        </form>*@
+                    </td>
+                    </tr>    
+                    
                             } 
                   </tbody>
                 </table>

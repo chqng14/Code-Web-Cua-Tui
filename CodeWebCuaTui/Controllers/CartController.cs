@@ -3,6 +3,7 @@ using CodeWebCuaTui.Models;
 using CodeWebCuaTui.Services;
 using CodeWebCuaTui.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 namespace CodeWebCuaTui.Controllers
@@ -62,7 +63,7 @@ namespace CodeWebCuaTui.Controllers
             {
                 if (SessionServices.CheckObjInList(a.ProductID, products))
                 {
-                    if (productInCart.Quantity < product.Quantity)
+                    if (productInCart.Quantity + a.Quantity <= product.Quantity)
                     {
                         productInCart.Quantity += a.Quantity;
                         SessionServices.SetObjToSession(HttpContext.Session, "Cart", products);
@@ -101,6 +102,33 @@ namespace CodeWebCuaTui.Controllers
             ViewBag.TotalQuantity = totalQuantity;
             return View(products);
         }
+        //public IActionResult DeleteCart(CartItemViewModel a) cách 1
+        //{
+        //    var carts = SessionServices.GetObjFromSession(HttpContext.Session, "Cart"); // lấy dữ liệu 
+        //    CartItemViewModel productRemove = carts.FirstOrDefault(c => c.ProductID == a.ProductID);
+        //    if (productRemove != null)
+        //    {
+        //        carts.Remove(productRemove);
+        //    }
+        //    SessionServices.SetObjToSession(HttpContext.Session, "Cart", carts); // gán lại dữ liệu
+        //    return RedirectToAction("ShowCart", "Cart");
+        //}
+        public IActionResult DeleteCart(Guid id)
+        {
+            var carts = SessionServices.GetObjFromSession(HttpContext.Session, "Cart"); // lấy dữ liệu 
+            CartItemViewModel productRemove = carts.FirstOrDefault(c => c.ProductID == id);
+            if (productRemove != null)
+            {
+                carts.Remove(productRemove);
+            }
+            SessionServices.SetObjToSession(HttpContext.Session, "Cart", carts); // gán lại dữ liệu
+            return RedirectToAction("ShowCart", "Cart");
+        }
+        public IActionResult DeleteAllCart()
+        {
+            HttpContext.Session.Remove("Cart");
+            return RedirectToAction("ShowCart", "Cart");
+        }
         public IActionResult addQuantity(Guid productId, int quantity)
         {
             // Lấy danh sách sản phẩm trong giỏ hàng từ session
@@ -120,6 +148,44 @@ namespace CodeWebCuaTui.Controllers
 
             return RedirectToAction("ShowCart");
         }
+        [HttpPost]
+        public IActionResult UpdateCart(CartItemViewModel model, string dec, string inc)
+        {
+            var product = productServices.GetProductById(model.ProductID);
+            var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
+            var existingProduct = products.FirstOrDefault(x => x.ProductID == model.ProductID);
+            if (dec == "dec")
+            {
+
+                foreach (var item in products)
+                {
+                    if (item.ProductID == model.ProductID)
+                    {
+                        item.Quantity = model.Quantity;
+                    }
+
+                }
+            }
+            else if (inc == "inc")
+            {
+
+                foreach (var item in products)
+                {
+                    if (item.ProductID == model.ProductID)
+                    {
+                        if (existingProduct.Quantity == product.Quantity)
+                        {
+                            TempData["quantityCart"] = "Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này";
+                            existingProduct.Quantity = product.Quantity;
+                        }
+                        else item.Quantity = model.Quantity;
+                    }
+                }
+            }
+            SessionServices.SetObjToSession(HttpContext.Session, "Cart", products);
+            return RedirectToAction("ShowCart");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
