@@ -33,20 +33,31 @@ namespace CodeWebCuaTui.Controllers
             var User = contex.Users.Find(id);
             return View(User);
         }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("acc");
+            return RedirectToAction("Login");
+        }
         public ActionResult Login(string username, string password)
         {
+
             if (ModelState.IsValid)
             {
                 var data = contex.Users.Where(s => s.UserName.Equals(username) && s.Password.Equals(password)).ToList();
                 if (data.Count() > 0)
                 {
                     //add Session
+
                     HttpContext.Session.SetString("acc", data.FirstOrDefault().UserName);
+                    HttpContext.Session.SetString("role", data.FirstOrDefault().RoleID.ToString());
+                    var acc = HttpContext.Session.GetString("acc");
+                    TempData["Message"] = "Xin chào " + acc + " đã đến với MixiShop";
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ViewBag.error = "Login failed";
+
+                    TempData["AlertMessage"] = "Login failed";
                     return RedirectToAction("Login");
                 }
             }

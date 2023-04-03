@@ -11,7 +11,7 @@ builder.Services.AddTransient<IColorServices, ColorServices>();
 builder.Services.AddTransient<IImageServices, ImagesServices>();
 builder.Services.AddTransient<ISupplierServices, SupplierServices>();
 builder.Services.AddTransient<IProductServices, ProductServices>();
-builder.Services.AddSession(option => { option.IdleTimeout = TimeSpan.FromSeconds(30); });
+builder.Services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
 var app = builder.Build();
 ////Khai báo sử dụng Session với thời gian timeout là 30 giây
 // Configure the HTTP request pipeline.

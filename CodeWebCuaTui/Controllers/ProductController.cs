@@ -69,6 +69,7 @@ namespace CodeWebCuaTui.Controllers
         {
             if (_Product.CreateProduct(Product))
             {
+                TempData["Message"] = "Thêm thành công";
                 return RedirectToAction("ShowAll");
             }
             else return BadRequest();

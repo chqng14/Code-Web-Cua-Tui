@@ -2,8 +2,18 @@
 
 @{
     ViewData["Title"] = "Details";
+   
 }
-
+@if(TempData["bug"]!=null)
+        {
+          <script>
+              Swal.fire({
+              icon: 'error',
+              title: '@TempData["bug"]',
+              footer: '<a href="">Why do I have this issue?</a>'
+                        })
+          </script>
+        }
 <div class="container-fluid">
 
     <div class="container " style="margin-top:20px">
@@ -57,11 +67,31 @@
                             <p>Mã: @Html.DisplayFor(model => model.ProductCode)</p>
                             <hr>
                             <p>Danh mục: <a> @Html.DisplayFor(model => model.Category.Name)</a></p>
+                          <h5>Giá : @string.Format("{0:N0}", Model.Price) đ</h5>
+
+                        </div>
+                        <form method="post" asp-action="AddToCart" asp-controller="Cart">
+                         <div class="d-flex flex-row">
+                                 <p style="height:10px">Số lượng</p>
+                          <button class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                            <i class="fas fa-minus"></i>
+                          </button>
+      
+                          <input id="form1" min="0" name="quantity" max="@Model.Quantity" value="1" type="number"
+                            class="form-control form-control-sm" style="width: 70px;" />
+      
+                          <button class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                            <i class="fas fa-plus"></i>
+                          </button>
                         </div>
                         <div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-outline-dark">Mua
                                 ngay</button>
-                            <button class="btn btn-dark">Thêm giỏ hàng</button>
+                                <input type="hidden" name="ProductID" value="@Model.ID" />  
+                            <button class="btn btn-dark" type="submit" >  Thêm giỏ hàng   </button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>

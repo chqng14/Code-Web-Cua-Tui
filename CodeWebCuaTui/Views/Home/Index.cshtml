@@ -4,13 +4,23 @@
      var Product1 = ViewBag.Product1 as List<Product>;
     var Product2 = ViewBag.Product2 as List<Product>;
     var Product3 = ViewBag.Product3 as List<Product>;
+
 }     
 
      <img src="~/Image/bannerMixishopnew.png" class="img-fluid" width="100%" alt="..." style="margin: auto">
  
+
+     @if(TempData["Message"]!=null)
+        {
+          <script>
+              Swal.fire('@TempData["Message"]')
+          </script>
+        }
+
+
 <p class="fs-1" align="center" style="margin-top: 40px;"><strong>Bán chạy nhất</strong></p>
 <div align="center">
-    <button type="button" class="btn btn-outline-primary">Xem tất cả</button>
+    <button type="button" class="btn btn-outline-primary" ><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="ShowAll" > Tất cả sản phẩm  </a></button>
 </div>
 <br>
 <div class="container text-center">

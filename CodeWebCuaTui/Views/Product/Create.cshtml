@@ -5,7 +5,7 @@
 }
 
 <h1>Create</h1>
-
+ 
 <h4>Product</h4>
 <hr />
 <div class="row">
@@ -74,11 +74,16 @@
         </form>
     </div>
 </div>
-
+ 
 <div>
        <a asp-action="ShowAll">Back to List</a>
 </div>
 
 @section Scripts {
+@*    <script>
+        function showMessage() {
+     Swal.fire('@TempData["Message"]')
+}
+    </script>*@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

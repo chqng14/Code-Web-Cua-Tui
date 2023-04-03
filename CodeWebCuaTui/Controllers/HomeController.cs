@@ -26,6 +26,8 @@ namespace CodeWebCuaTui.Controllers
 
         public IActionResult Index()
         {
+
+            //lay 2 lst sp de hien thi tam thoi 
             var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
                    .Include("Suppliers").Take(4).ToList();
             var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
@@ -35,13 +37,16 @@ namespace CodeWebCuaTui.Controllers
             string acc = HttpContext.Session.GetString("acc");
             if (acc != null)
             {
-                return View(Product1);
+
+                return View();
             }
             else
             {
-                return RedirectToAction("Login", "User");
+
+                return View();
             }
-            return View();
+
+
         }
 
 
@@ -110,6 +115,11 @@ namespace CodeWebCuaTui.Controllers
             };
             return View(viewModel);
         }
+        //public IActionResult AddToCard(Guid id)
+        //{
+        //    var product = _Product.GetProductById(id);
+
+        //}
         public IActionResult Cart()
         {
             return View();

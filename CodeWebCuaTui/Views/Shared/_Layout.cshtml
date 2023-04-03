@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using CodeWebCuaTui.Services;
+@{
+    var acc = Context.Session.GetString("acc");
+    var cart = Context.Session.Get("Cart");
+    var role = Context.Session.GetString("role");
+     var products = SessionServices.GetObjFromSession(Context.Session, "Cart");
+            // tính tổng số lượng sản phẩm trong giỏ hàng
+            var totalQuantity = products.Count();
+            ViewBag.TotalQuantity = totalQuantity;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,13 +23,16 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/csschitietsp.css">
     <link rel="stylesheet" href="~/css/site.css">
+      <link href="~/lib/sweetalert2/dist/sweetalert2.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <script src="~/js/site.js"></script>
+
+
 </head>
-<style>
-  
+@{
 
-
-</style>
-<body >
+}
+<body>
     <header>
          <!-- Nav -->
  <nav class="navbar navbar-expand-lg bg-body-tertiary " style="padding: 0px; padding-left: 10%;padding-right: 10%;">
@@ -64,9 +77,13 @@
             </ul>
 
             <ul class="nav justify-content-end">
-                <a class="navbar-brand" asp-controller="Home" asp-area="" asp-action="Admin" >
+                 @if(acc!=null && role == "d07bc4cc-8764-4e53-d8af-08db2d4dd5ec")
+                  {
+                       <a class="navbar-brand" asp-controller="Home" asp-area="" asp-action="Admin" >
                     <img src="~/Image/settings.png" alt="Bootstrap" width="20" height="20">
                 </a>
+                  }
+               
                 <a class="navbar-brand"  href="tel:0973079377" >
                     <img src="~/Image/phone-call.png" alt="Bootstrap" width="20" height="20">
                 </a>  
@@ -75,15 +92,23 @@
                         aria-current="page" href="tel:0973079377">0973079377</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"  asp-controller="Home" asp-area="" asp-action="Cart" style="color: black;">Giỏ hàng</a>
+                    <a class="nav-link"  asp-controller="Cart" asp-area="" asp-action="ShowCart" style="color: black;">Giỏ hàng <span  style="color:red">(@totalQuantity)</span></a> 
                 </li>
-                <a class="navbar-brand"  asp-controller="Home" asp-area="" asp-action="Cart">
-                    <img src="~/Image/shopping-cart.png" alt="Bootstrap" width="20" height="20">
+                <a class="navbar-brand"  asp-controller="Cart" asp-area="" asp-action="ShowCart">
+                    <img src="~/Image/shopping-cart.png" alt="Bootstrap" width="20" height="20"> 
                 </a>
                 <div class="d-grid gap-2 d-md-block">
-                    <a class="btn btn-primary" asp-controller="User" asp-area="" asp-action="Login"   role="button">Đăng nhập</a>
+                  @if(acc==null)
+                  {
+                        <a class="btn btn-primary" asp-controller="User" asp-area="" asp-action="Login"   role="button">Đăng nhập</a>
                     <a class="btn btn-primary"  asp-controller="User" asp-area="" asp-action="Create" role="button">Đăng ký</a>
-                </div>
+                  }
+                  @if(acc!=null)
+                   {
+                             <a class="btn btn-primary" style="background-color:white;color:black;border:none">@acc.ToString()</a> 
+                               <a class="btn btn-primary" asp-controller="User" asp-area="" asp-action="Logout"   role="button">Đăng Xuất</a>
+                   }
+                        </div>
             </ul>
         </div>
     </div>
@@ -143,6 +168,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
