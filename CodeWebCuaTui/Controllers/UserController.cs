@@ -6,18 +6,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Security.Principal;
+
 namespace CodeWebCuaTui.Controllers
 {
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserServices _User;
+        private readonly ICartServices _CartServices;
+        private readonly ICartDetailsServices _CartDetailsServices;
         private readonly IRoleServices _RoleServices;
         private CodeWebCuaTuiDbContex contex;
         public UserController(ILogger<UserController> logger)
         {
             _logger = logger;
             _User = new UserServices();
+            _CartServices = new CartServices();
+            _CartDetailsServices = new CartDetailsServices();
             _RoleServices = new RoleServices();
             contex = new CodeWebCuaTuiDbContex();
         }
@@ -40,19 +46,32 @@ namespace CodeWebCuaTui.Controllers
         }
         public ActionResult Login(string username, string password)
         {
-
+            var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
             if (ModelState.IsValid)
             {
-                var data = contex.Users.Where(s => s.UserName.Equals(username) && s.Password.Equals(password)).ToList();
-                if (data.Count() > 0)
+                var data = contex.Users.Include("Role").FirstOrDefault(s => s.UserName.Equals(username) && s.Password.Equals(password));
+                if (data != null)
                 {
                     //add Session
-
-                    HttpContext.Session.SetString("acc", data.FirstOrDefault().UserName);
-                    HttpContext.Session.SetString("role", data.FirstOrDefault().RoleID.ToString());
+                    HttpContext.Session.SetString("acc", data.UserName);
+                    HttpContext.Session.SetString("role", data.Role.Name);
                     var acc = HttpContext.Session.GetString("acc");
                     TempData["Message"] = "Xin chào " + acc + " đã đến với MixiShop";
+
+                    var x = _User.GetAllUsers().FirstOrDefault(x => x.UserName == username);
+                    var lstCart = _CartServices.GetAllCarts();
+                    if (lstCart.FirstOrDefault(c => c.ID == x.ID) == null)
+                    {
+                        Cart cart = new Cart()
+                        {
+                            ID = x.ID,
+                            Describe = null,
+                        };
+                        _CartServices.CreateCart(cart);
+                    }
+                    HttpContext.Session.Remove("Cart");
                     return RedirectToAction("Index", "Home");
+
                 }
                 else
                 {
@@ -74,10 +93,18 @@ namespace CodeWebCuaTui.Controllers
 
             if (_User.CreateUser(User))
             {
+                Cart cart = new Cart()
+                {
+                    ID = User.ID,
+                    Describe = null
+                };
+                _CartServices.CreateCart(cart);
                 return RedirectToAction("ShowAll");
             }
             else return BadRequest();
         }
+
+
         [HttpGet]
         public IActionResult Edit(Guid id)
         {

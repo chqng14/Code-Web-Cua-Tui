@@ -1,9 +1,10 @@
-﻿@model IEnumerable<CodeWebCuaTui.ViewModel.CartItemViewModel>
+﻿@model IEnumerable<CodeWebCuaTui.Models.CartDetails>
 
 @{
-    ViewData["Title"] = "ShowCart";
-    var tongtien = ViewBag.Total;
-    decimal ship = 40000;
+    ViewData["Title"] = "ShowCartUser";
+     var tongtien = ViewBag.Total;
+        decimal ship = 40000;
+
 }
 
 @if(TempData["bug"] != null) {
@@ -13,7 +14,7 @@
 {
      <div class="alert alert-danger">@TempData["quantityCart"]</div>
 }
-    <section class="h-100 h-custom" >
+  <section class="h-100 h-custom" >
         <div class="container h-100 py-5">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col">
@@ -35,39 +36,39 @@
           <tr>
                       <th scope="row">
                         <div class="d-flex align-items-center">
-                       <img src="@Url.Content(item.Image)" class="img-fluid rounded-3" style="width: 120px;" alt="Product">
+                       <img src="@Url.Content(item.Product.Images.Path1)" class="img-fluid rounded-3" style="width: 120px;" alt="Product">
                           <div class="flex-column ms-4">
-                            <p class="mb-2">     <a class="linksp">  @Html.ActionLink(item.Name, "Details","Home", new { id=item.ProductID })</a> <br></p>
-                            <p class="mb-0">  Size:  @Html.DisplayFor(modelItem => item.Size)</p>
-                            <p class="mb-0">  Color:  @Html.DisplayFor(modelItem => item.Color)</p>
+                            <p class="mb-2">     <a class="linksp">  @Html.ActionLink(item.Product.Name, "Details","Home", new { id=item.ProductId })</a> <br></p>
+                            <p class="mb-0">  Size:  @Html.DisplayFor(modelItem => item.Product.Sizes.Name)</p>
+                            <p class="mb-0">  Color:  @Html.DisplayFor(modelItem => item.Product.Color.Name)</p>
 
                           </div>
                         </div>
                       </th>
                       <td class="align-middle">
-                        <p class="mb-0" style="font-weight: 500;">   @Html.DisplayFor(modelItem => item.CategoryName)</p>
+                        <p class="mb-0" style="font-weight: 500;">   @Html.DisplayFor(modelItem => item.Product.Suppliers.Name)</p>
                       </td>
                       <td class="align-middle">
                           <form method="post" asp-action="UpdateCart" asp-controller="Cart">
                             <div class="d-flex flex-row">
 
-                        <input type="number" min="1"  name="quantity" value="@item.Quantity" data-product-id="@item.ProductID" oninput="handleInput(event)"
+                        <input type="number" min="1"  name="quantity" value="@item.Quantity" data-product-id="@item.Product.ID" oninput="handleInput(event)"
                         class="form-control form-control-sm" style="width: 60px; height:10px" />
         
                         </div>
-                        <input type="hidden" name="ProductID" value="@item.ProductID" />
+                        <input type="hidden" name="ProductID" value="@item.Product.ID" />
                           </form>
                         
                       </td>
                         <td class="align-middle">
-                     <p class="mb-0" style="font-weight: 500;">@((item.Price).ToString("N0")) đồng</p>
+                     <p class="mb-0" style="font-weight: 500;">@((item.Product.Price).ToString("N0")) đồng</p>
                       </td>
                       <td class="align-middle">
-                     <p class="mb-0" style="font-weight: 500;">@((item.Price*item.Quantity).ToString("N0")) đồng  </p>
+                     <p class="mb-0" style="font-weight: 500;">@((item.Product.Price*item.Quantity).ToString("N0")) đồng  </p>
                  
                       </td>
                       <td class="align-middle">
-                      <p>@Html.ActionLink("Xóa","DeleteCart","Cart",new {id=item.ProductID}  )</p>
+                      <p>@Html.ActionLink("Xóa","DeleteCart","Cart",new {id=item.ID}  )</p>
                      @*   <form action="@Url.Action("DeleteCart", "Cart")" method="post">
                             <input type="hidden" name="productId" value="@item.ProductID" />
                             <button type="submit">Xóa sản phẩm</button>
@@ -196,14 +197,13 @@
             const value = input.value;
             const productId = input.dataset.productId;
             $.ajax({
-              url: '/Cart/UpdateCart',
+              url: '/Cart/UpdateCartToUser',
               type: 'POST',
               data: { idsp: productId, quantity: value },
               success: function (result) {
-                window.location.href = '@Url.Action("ShowCart", "Cart")';
+                window.location.href = '@Url.Action("ShowCartUser", "Cart")';
               }
             })}
     </script>
   
 }
-

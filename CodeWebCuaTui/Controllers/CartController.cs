@@ -14,6 +14,8 @@ namespace CodeWebCuaTui.Controllers
         private readonly ICartServices _Cart;
         private readonly CodeWebCuaTuiDbContex dbContex;
         private readonly IProductServices productServices;
+        private readonly IUserServices userServices;
+        private readonly ICartDetailsServices cartDetailsServices;
 
         public CartController(ILogger<CartController> logger)
         {
@@ -21,6 +23,8 @@ namespace CodeWebCuaTui.Controllers
             dbContex = new CodeWebCuaTuiDbContex();
             productServices = new ProductServices();
             _Cart = new CartServices();
+            userServices = new UserServices();
+            cartDetailsServices = new CartDetailsServices();
         }
         //---------------Cart------------
         public IActionResult Index()
@@ -30,7 +34,8 @@ namespace CodeWebCuaTui.Controllers
         [HttpPost]
         public IActionResult AddToCart(CartItemViewModel a)
         {
-            //lấy dữ liệu sản phẩm
+            //lấy dữ liệu sản phẩm     
+
             var product = productServices.GetProductById(a.ProductID);
             var categoryName = dbContex.Categories.Where(c => c.ID == product.CategoryID).Select(c => c.Name).FirstOrDefault();
             var ImagePath = dbContex.Images.Where(c => c.ID == product.ImageID).Select(c => c.Path1).FirstOrDefault();
@@ -56,7 +61,7 @@ namespace CodeWebCuaTui.Controllers
             if (products.Count == 0)
             {
                 products.Add(cartItem); // Nếu không có sản phẩm nào thì add nó vào
-                //Sau đó gản lại giá trị vào trong Session
+                                        //Sau đó gản lại giá trị vào trong Session
                 SessionServices.SetObjToSession(HttpContext.Session, "Cart", products);
             }
             else
@@ -85,6 +90,71 @@ namespace CodeWebCuaTui.Controllers
 
             return RedirectToAction("ShowCart");
         }
+        [HttpPost]
+        public IActionResult AddToCartUser(CartItemViewModel model)
+        {
+            var product = productServices.GetProductById(model.ProductID);
+            var acc = HttpContext.Session.GetString("acc");
+            var id = userServices.GetAllUsers().FirstOrDefault(c => c.UserName == acc).ID;
+            var UserInCart = cartDetailsServices.GetAllCartDetailss().FirstOrDefault(c => c.UserID == id && c.ProductId == product.ID);
+            if (UserInCart != null)
+            {
+                if (UserInCart.Quantity + model.Quantity <= product.Quantity)
+                {
+                    UserInCart.Quantity += model.Quantity;
+                    cartDetailsServices.UpdateCartDetails(UserInCart);
+                }
+                else
+                {
+                    UserInCart.Quantity = product.Quantity;
+                    cartDetailsServices.UpdateCartDetails(UserInCart);
+                    TempData["bug"] = "Trong kho đã hết số lượng sản phẩm mà bạn yêu cầu ";
+                    return RedirectToAction("Details", "Home", new { id = UserInCart.ProductId });
+                }
+            }
+            else
+            {
+                var cartDetails = new CartDetails()
+                {
+                    UserID = id,
+                    ProductId = product.ID,
+                    Quantity = model.Quantity,
+                };
+                cartDetailsServices.CreateCartDetails(cartDetails);
+            }
+            return RedirectToAction("ShowCartUser");
+
+        }
+        public IActionResult ShowCartUser()
+        {
+            var acc = HttpContext.Session.GetString("acc");
+            var id = userServices.GetAllUsers().FirstOrDefault(c => c.UserName == acc).ID;
+            List<CartDetails> cartDetails = new(cartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == id).ToList());
+            decimal tongtien = cartDetails.Sum(c => c.Quantity * c.Product.Price);
+            var totalQuantity = cartDetails.Sum(c => c.Quantity * c.Product.Price);
+            ViewBag.Total = totalQuantity;
+            return View(cartDetails);
+        }
+        [HttpPost]
+        public IActionResult UpdateCartToUser(Guid idsp, int quantity)
+        {
+            var acc = HttpContext.Session.GetString("acc");
+            var id = userServices.GetAllUsers().FirstOrDefault(c => c.UserName == acc).ID;
+            var product = productServices.GetProductById(idsp);
+            List<CartDetails> cartDetails = new(cartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == id).ToList());
+            var a = cartDetails.Find(x => x.ProductId == idsp && x.UserID == id);
+
+            if (quantity <= product.Quantity)
+            {
+                a.Quantity = quantity;
+            }
+            else
+            {
+                TempData["quantityCart"] = "Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này";
+            }
+            cartDetailsServices.UpdateCartDetails(a);
+            return RedirectToAction("ShowCartUser");
+        }
         public IActionResult ShowCart()
         {
             var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
@@ -102,17 +172,7 @@ namespace CodeWebCuaTui.Controllers
             ViewBag.TotalQuantity = totalQuantity;
             return View(products);
         }
-        //public IActionResult DeleteCart(CartItemViewModel a) cách 1
-        //{
-        //    var carts = SessionServices.GetObjFromSession(HttpContext.Session, "Cart"); // lấy dữ liệu 
-        //    CartItemViewModel productRemove = carts.FirstOrDefault(c => c.ProductID == a.ProductID);
-        //    if (productRemove != null)
-        //    {
-        //        carts.Remove(productRemove);
-        //    }
-        //    SessionServices.SetObjToSession(HttpContext.Session, "Cart", carts); // gán lại dữ liệu
-        //    return RedirectToAction("ShowCart", "Cart");
-        //}
+
         public IActionResult DeleteCart(Guid id)
         {
             var carts = SessionServices.GetObjFromSession(HttpContext.Session, "Cart"); // lấy dữ liệu 
@@ -129,58 +189,21 @@ namespace CodeWebCuaTui.Controllers
             HttpContext.Session.Remove("Cart");
             return RedirectToAction("ShowCart", "Cart");
         }
-        public IActionResult addQuantity(Guid productId, int quantity)
-        {
-            // Lấy danh sách sản phẩm trong giỏ hàng từ session
-            var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
 
-            // Tìm sản phẩm cần thay đổi số lượng
-            var product = products.FirstOrDefault(p => p.ProductID == productId);
-
-            if (product != null)
-            {
-                // Cập nhật số lượng sản phẩm
-                product.Quantity = quantity;
-
-                // Lưu lại danh sách sản phẩm vào session
-                SessionServices.SetObjToSession(HttpContext.Session, "Cart", products);
-            }
-
-            return RedirectToAction("ShowCart");
-        }
         [HttpPost]
-        public IActionResult UpdateCart(CartItemViewModel model, string dec, string inc)
+        public IActionResult UpdateCart(CartItemViewModel model, Guid idsp, int quantity)
         {
-            var product = productServices.GetProductById(model.ProductID);
+            var product = productServices.GetProductById(idsp);
             var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
-            var existingProduct = products.FirstOrDefault(x => x.ProductID == model.ProductID);
-            if (dec == "dec")
+            var a = products.Find(x => x.ProductID == idsp);
+
+            if (quantity <= product.Quantity)
             {
-
-                foreach (var item in products)
-                {
-                    if (item.ProductID == model.ProductID)
-                    {
-                        item.Quantity = model.Quantity;
-                    }
-
-                }
+                a.Quantity = quantity;
             }
-            else if (inc == "inc")
+            else
             {
-
-                foreach (var item in products)
-                {
-                    if (item.ProductID == model.ProductID)
-                    {
-                        if (existingProduct.Quantity == product.Quantity)
-                        {
-                            TempData["quantityCart"] = "Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này";
-                            existingProduct.Quantity = product.Quantity;
-                        }
-                        else item.Quantity = model.Quantity;
-                    }
-                }
+                TempData["quantityCart"] = "Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này";
             }
             SessionServices.SetObjToSession(HttpContext.Session, "Cart", products);
             return RedirectToAction("ShowCart");

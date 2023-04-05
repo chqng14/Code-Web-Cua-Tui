@@ -1,5 +1,6 @@
 ﻿using CodeWebCuaTui.Models;
 using CodeWebCuaTui.IServices;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeWebCuaTui.Services
 {
@@ -43,7 +44,12 @@ namespace CodeWebCuaTui.Services
 
         public List<CartDetails> GetAllCartDetailss()
         {
-            return _context.CartDetails.ToList();
+            return _context.CartDetails.Include(cd => cd.Product).ThenInclude(p => p.Color)
+              .Include(cd => cd.Product).ThenInclude(p => p.Category)
+              .Include(cd => cd.Product).ThenInclude(p => p.Sizes)
+              .Include(cd => cd.Product).ThenInclude(p => p.Suppliers)
+              .Include(cd => cd.Product).ThenInclude(p => p.Images)
+              .ToList();
         }
 
         public CartDetails GetCartDetailsById(Guid id)
@@ -61,11 +67,12 @@ namespace CodeWebCuaTui.Services
             try
             {
                 var a = _context.CartDetails.Find(p.ID);
-                a.UserID=p.UserID;
-                a.ProductId =p.ProductId;
+                a.UserID = p.UserID;
+                a.ProductId = p.ProductId;
                 a.Quantity = p.Quantity;
-                a.Status =p.Status;
+                a.Status = p.Status;
                 _context.CartDetails.Update(a);
+                _context.SaveChanges();
                 return true;
 
             }

@@ -77,7 +77,7 @@
             </ul>
 
             <ul class="nav justify-content-end">
-                 @if(acc!=null && role == "d07bc4cc-8764-4e53-d8af-08db2d4dd5ec")
+                 @if(acc!=null && role == "ADMIN")
                   {
                        <a class="navbar-brand" asp-controller="Home" asp-area="" asp-action="Admin" >
                     <img src="~/Image/settings.png" alt="Bootstrap" width="20" height="20">
@@ -91,13 +91,27 @@
                     <a class="nav-link active" style="color:black;border-right: 1px solid black ;" );
                         aria-current="page" href="tel:0973079377">0973079377</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link"  asp-controller="Cart" asp-area="" asp-action="ShowCart" 
-                    style="color: black;">Giỏ hàng <span  style="color:red">(@totalQuantity)</span></a> 
-                </li>
-                <a class="navbar-brand"  asp-controller="Cart" asp-area="" asp-action="ShowCart">
-                    <img src="~/Image/shopping-cart.png" alt="Bootstrap" width="20" height="20"> 
-                </a>
+               @if(acc!=null)
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Cart" asp-area="" asp-action="ShowCartUser" style="color: black;">Giỏ hàng <span
+                                    style="color:red">(@totalQuantity)</span></a>
+                        </li>
+                        <a class="navbar-brand" asp-controller="Cart" asp-area="" asp-action="ShowCart">
+                            <img src="~/Image/shopping-cart.png" alt="Bootstrap" width="20" height="20">
+                        </a>
+                        }
+                else
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Cart" asp-area="" asp-action="ShowCart" style="color: black;">Giỏ hàng <span
+                                    style="color:red">(@totalQuantity)</span></a>
+                        </li>
+                        <a class="navbar-brand" asp-controller="Cart" asp-area="" asp-action="ShowCart">
+                            <img src="~/Image/shopping-cart.png" alt="Bootstrap" width="20" height="20">
+                        </a>
+                        }
+                       
                 <div class="d-grid gap-2 d-md-block">
                   @if(acc==null)
                   {
