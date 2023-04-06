@@ -4,16 +4,32 @@
     ViewData["Title"] = "Details";
      var acc = Context.Session.GetString("acc");
 }
-@if(TempData["bug"]!=null)
+@if(acc!=null)
+{
+    @if(TempData["bug"]!=null)
         {
           <script>
               Swal.fire({
               icon: 'error',
               title: '@TempData["bug"]',
-              footer: '<a href="">Có vẻ trong giỏ hàng bạn đã có tối đa số lượng kho của sản phẩm?</a>'
+              footer: '<a href="/Cart/ShowCartUser">Có vẻ trong giỏ hàng bạn đã có tối đa số lượng kho của sản phẩm?</a>'
                         })
           </script>
         }
+}
+else
+{
+    @if(TempData["bug"]!=null)
+        {
+          <script>
+              Swal.fire({
+              icon: 'error',
+              title: '@TempData["bug"]',
+              footer: '<a href="/Cart/ShowCart">Có vẻ trong giỏ hàng bạn đã có tối đa số lượng kho của sản phẩm?</a>'
+                        })
+          </script>
+        }
+}
 <div class="container-fluid">
 
     <div class="container " style="margin-top:20px">

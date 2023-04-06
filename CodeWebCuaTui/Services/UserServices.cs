@@ -62,7 +62,7 @@ namespace CodeWebCuaTui.Services
 
         public List<User> GetUserByName(string name)
         {
-            return _context.Users.Where(p => p.Name.Contains(name)).ToList();
+            return _context.Users.Where(p => p.UserName == name).ToList();
         }
 
         public bool UpdateUser(User p)

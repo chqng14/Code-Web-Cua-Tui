@@ -25,51 +25,71 @@ namespace CodeWebCuaTui.Controllers
             productServices = new ProductServices();
         }
         //---------------Bill------------
-        public IActionResult ShowAll()
+
+        public IActionResult Pay(string name, string address,string phone,string Describe)
         {
-            List<Bill> categories = _Bill.GetAllBills();
-            return View(categories);
-        }
-        public IActionResult Details(Guid id)
-        {
-            CodeWebCuaTuiDbContex contex = new CodeWebCuaTuiDbContex();
-            var Bill = contex.Categories.Find(id);
-            return View(Bill);
-        }
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(Bill Bill)
-        {
-            if (_Bill.CreateBill(Bill))
+            var UserID = _userServices.GetUserByName(HttpContext.Session.GetString("acc"))[0].ID;
+            var listCartDetails = _CartDetails.GetAllCartDetailss().Where(c => c.UserID == UserID);
+            decimal tongtien = listCartDetails.Sum(c => c.Quantity * c.Product.Price);
+            var Chuoi = "";
+            var outOfStockProducts = listCartDetails
+                             .Where(item => item.Quantity > productServices.GetProductById(item.ProductId).Quantity)
+                             .Select(item => '"' + productServices.GetProductById(item.ProductId).Name);
+            Chuoi = string.Join(" ", outOfStockProducts);
+
+            if (listCartDetails.Any())
             {
-                return RedirectToAction("ShowAll");
+                if (Chuoi == "")
+                {
+                    var bill = new Bill()
+                    {
+                        ID = new Guid(),
+                        DateCreate = DateTime.Now,
+                        DateOfPay = DateTime.Now,
+                        UserID = UserID,
+                        Name = name,
+                        Phone = phone,
+                        Address = address,
+                        Describe = Describe,
+                        TotalAmount = tongtien,
+                        Status = 0
+                    };
+                    _Bill.CreateBill(bill);
+                    foreach (var item in listCartDetails)
+                    {
+                        _billDetails.CreateBillDetails(new BillDetails()
+                        {
+                            ID = new Guid(),
+                            BillID = bill.ID,
+                            ProductId = item.ProductId,
+                            Quantity = item.Quantity,
+                            Price = tongtien
+                        });
+                        _CartDetails.DeleteCartDetails(item.ID);
+                        var product = productServices.GetProductById(item.ProductId);
+                        product.Quantity -= item.Quantity;
+                        productServices.UpdateProduct(product);
+                    }
+                    TempData["successful"] = "Thanh toán thanh toán thành công";
+                    return RedirectToAction("ShowCartUser", "Cart");
+                }
+                else
+                {
+                    TempData["PayError"] = "Thanh toán không thành công do số lượng tồn của " + Chuoi + " không đủ !!!";
+
+                }
             }
-            else return BadRequest();
+            return RedirectToAction("ShowCartUser", "Cart");
         }
-        [HttpGet]
-        public IActionResult Edit(Guid id)
+        public IActionResult ShowBillForAdmin()
         {
-            Bill Bill = _Bill.GetBillById(id);
-            return View(Bill);
+            List<Bill> billList = (_Bill.GetAllBills());
+            return View(billList);
         }
-        public IActionResult Edit(Bill Bill)
+        public IActionResult ShowBillDetailsForAdmin(Guid id)
         {
-            if (_Bill.UpdateBill(Bill))
-            {
-                return RedirectToAction("ShowAll");
-            }
-            else return BadRequest();
-        }
-        public IActionResult Delete(Guid id)
-        {
-            if (_Bill.DeleteBill(id))
-            {
-                return RedirectToAction("ShowAll");
-            }
-            else return BadRequest();
+            List<BillDetails> bills = _billDetails.GetAllBillDetails().Where(c => c.BillID == id).ToList();
+            return View(bills);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

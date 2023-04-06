@@ -1,0 +1,87 @@
+﻿@model IEnumerable<CodeWebCuaTui.Models.Bill>
+
+@{
+    ViewData["Title"] = "ShowBillForAdmin";
+}
+
+<h1>ShowBillForAdmin</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               User
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BillCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfPay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Describe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfPay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Describe)
+            </td>
+            <td>
+                       @item.TotalAmount.ToString("n0") đồng
+            </td>
+            <td>
+                @(item.Status == 0 ? "Đã hoàn thành" : "Chưa hoàn thành")
+            </td>
+            <td>
+                @Html.ActionLink("Chi Tiết", "ShowBillDetailsForAdmin","Bill" ,new { id=item.ID })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

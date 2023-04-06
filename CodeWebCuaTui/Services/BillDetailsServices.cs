@@ -1,5 +1,6 @@
 ﻿using CodeWebCuaTui.Models;
 using CodeWebCuaTui.IServices;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeWebCuaTui.Services
 {
@@ -44,7 +45,7 @@ namespace CodeWebCuaTui.Services
 
         public List<BillDetails> GetAllBillDetails()
         {
-            return _context.BillDetails.ToList();
+            return _context.BillDetails.Include("Product").Include("Bill").ToList();
         }
 
         public BillDetails GetBillDetailsById(Guid id)

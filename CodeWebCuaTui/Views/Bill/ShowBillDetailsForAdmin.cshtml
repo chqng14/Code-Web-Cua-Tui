@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CodeWebCuaTui.Models.BillDetails>
+
+@{
+    ViewData["Title"] = "ShowBillDetailsForAdmin";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mã hóa đơn
+            </th>
+            <th>
+               Tên sản phẩm
+            </th>
+            <th>
+                Số lượng đặt
+            </th>
+            <th>
+              Giá
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bill.BillCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                 @item.Price.ToString("n0") đồng
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details","Home", new { id=item.ProductId }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

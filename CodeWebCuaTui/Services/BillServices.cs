@@ -1,5 +1,6 @@
 ﻿using CodeWebCuaTui.Models;
 using CodeWebCuaTui.IServices;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeWebCuaTui.Services
 {
@@ -15,6 +16,7 @@ namespace CodeWebCuaTui.Services
         {
             try
             {
+                p.BillCode = Matt();
                 _context.Bills.Add(p);
                 _context.SaveChanges();
                 return true;
@@ -25,7 +27,14 @@ namespace CodeWebCuaTui.Services
                 return false;
             }
         }
-
+        public string Matt()
+        {
+            if (_context.Bills.Count() == 0)
+            {
+                return "BILL1";
+            }
+            else return "BILL" + _context.Bills.Max(c => Convert.ToInt32(c.BillCode.Substring(4, c.BillCode.Length - 4)) + 1);
+        }
         public bool DeleteBill(Guid id)
         {
             try
@@ -44,7 +53,7 @@ namespace CodeWebCuaTui.Services
 
         public List<Bill> GetAllBills()
         {
-            return _context.Bills.ToList();
+            return _context.Bills.Include("User").ToList();
         }
 
         public Bill GetBillById(Guid id)
@@ -72,7 +81,7 @@ namespace CodeWebCuaTui.Services
                 a.Describe = p.Describe;
                 a.TotalAmount = p.TotalAmount;
                 a.Status = p.Status;
-  
+
                 _context.Bills.Update(a);
                 _context.SaveChanges();
                 return true;

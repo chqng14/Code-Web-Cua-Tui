@@ -147,14 +147,17 @@ namespace CodeWebCuaTui.Controllers
             if (quantity <= product.Quantity)
             {
                 a.Quantity = quantity;
+       
             }
             else
             {
                 TempData["quantityCart"] = "Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này";
             }
             cartDetailsServices.UpdateCartDetails(a);
+
             return RedirectToAction("ShowCartUser");
         }
+
         public IActionResult ShowCart()
         {
             var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
@@ -175,19 +178,43 @@ namespace CodeWebCuaTui.Controllers
 
         public IActionResult DeleteCart(Guid id)
         {
-            var carts = SessionServices.GetObjFromSession(HttpContext.Session, "Cart"); // lấy dữ liệu 
-            CartItemViewModel productRemove = carts.FirstOrDefault(c => c.ProductID == id);
-            if (productRemove != null)
+            var acc = HttpContext.Session.GetString("acc");
+            if (acc == null)
             {
-                carts.Remove(productRemove);
+                var carts = SessionServices.GetObjFromSession(HttpContext.Session, "Cart"); // lấy dữ liệu 
+                CartItemViewModel productRemove = carts.FirstOrDefault(c => c.ProductID == id);
+                if (productRemove != null)
+                {
+                    carts.Remove(productRemove);
+                }
+                SessionServices.SetObjToSession(HttpContext.Session, "Cart", carts); // gán lại dữ liệu
+                return RedirectToAction("ShowCart", "Cart");
             }
-            SessionServices.SetObjToSession(HttpContext.Session, "Cart", carts); // gán lại dữ liệu
-            return RedirectToAction("ShowCart", "Cart");
+            else
+            {
+                cartDetailsServices.DeleteCartDetails(id);
+                return RedirectToAction("ShowCartUser");
+            }
+
         }
         public IActionResult DeleteAllCart()
         {
-            HttpContext.Session.Remove("Cart");
-            return RedirectToAction("ShowCart", "Cart");
+            var acc = HttpContext.Session.GetString("acc");
+            if (acc == null)
+            {
+                HttpContext.Session.Remove("Cart");
+                return RedirectToAction("ShowCart", "Cart");
+            }
+            else
+            {
+                var id = userServices.GetAllUsers().FirstOrDefault(c => c.UserName == acc).ID;
+                List<CartDetails> cartDetails = new(cartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == id).ToList());
+                foreach (var item in cartDetails)
+                {
+                    cartDetailsServices.DeleteCartDetails(item.ID);
+                }
+                return RedirectToAction("ShowCartUser");
+            }
         }
 
         [HttpPost]
