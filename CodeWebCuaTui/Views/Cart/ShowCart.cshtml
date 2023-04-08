@@ -32,7 +32,7 @@
                   </thead>
                   <tbody>
                       @foreach (var item in Model) {
-          <tr>
+                      <tr>
                       <th scope="row">
                         <div class="d-flex align-items-center">
                        <img src="@Url.Content(item.Image)" class="img-fluid rounded-3" style="width: 120px;" alt="Product">
@@ -40,7 +40,6 @@
                             <p class="mb-2">     <a class="linksp">  @Html.ActionLink(item.Name, "Details","Home", new { id=item.ProductID })</a> <br></p>
                             <p class="mb-0">  Size:  @Html.DisplayFor(modelItem => item.Size)</p>
                             <p class="mb-0">  Color:  @Html.DisplayFor(modelItem => item.Color)</p>
-
                           </div>
                         </div>
                       </th>

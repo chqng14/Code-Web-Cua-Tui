@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Net.WebSockets;
 using System.Security.Principal;
 
 namespace CodeWebCuaTui.Controllers
@@ -47,6 +48,7 @@ namespace CodeWebCuaTui.Controllers
         public ActionResult Login(string username, string password)
         {
             var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
+
             if (ModelState.IsValid)
             {
                 var data = contex.Users.Include("Role").FirstOrDefault(s => s.UserName.Equals(username) && s.Password.Equals(password));
@@ -60,6 +62,8 @@ namespace CodeWebCuaTui.Controllers
 
                     var x = _User.GetAllUsers().FirstOrDefault(x => x.UserName == username);
                     var lstCart = _CartServices.GetAllCarts();
+                    var cartDetails = _CartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == x.ID).ToList();
+                    HttpContext.Session.SetString("CartDetailsUser", cartDetails.Count().ToString());
                     if (lstCart.FirstOrDefault(c => c.ID == x.ID) == null)
                     {
                         Cart cart = new Cart()
@@ -99,7 +103,8 @@ namespace CodeWebCuaTui.Controllers
                     Describe = null
                 };
                 _CartServices.CreateCart(cart);
-                return RedirectToAction("ShowAll");
+                TempData["Create"] = "Đăng kí thành công";
+                return RedirectToAction("Index", "Home");
             }
             else return BadRequest();
         }

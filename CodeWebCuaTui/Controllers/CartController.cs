@@ -122,6 +122,8 @@ namespace CodeWebCuaTui.Controllers
                 };
                 cartDetailsServices.CreateCartDetails(cartDetails);
             }
+            var cartDetailss = cartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == id).ToList();
+            HttpContext.Session.SetString("CartDetailsUser", cartDetailss.Count().ToString());
             return RedirectToAction("ShowCartUser");
 
         }
@@ -147,14 +149,15 @@ namespace CodeWebCuaTui.Controllers
             if (quantity <= product.Quantity)
             {
                 a.Quantity = quantity;
-       
+
             }
             else
             {
                 TempData["quantityCart"] = "Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này";
             }
             cartDetailsServices.UpdateCartDetails(a);
-
+            var cartDetailss = cartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == id).ToList();
+            HttpContext.Session.SetString("CartDetailsUser", cartDetailss.Count().ToString());
             return RedirectToAction("ShowCartUser");
         }
 
@@ -179,6 +182,7 @@ namespace CodeWebCuaTui.Controllers
         public IActionResult DeleteCart(Guid id)
         {
             var acc = HttpContext.Session.GetString("acc");
+            var idUser = userServices.GetAllUsers().FirstOrDefault(c => c.UserName == acc).ID;
             if (acc == null)
             {
                 var carts = SessionServices.GetObjFromSession(HttpContext.Session, "Cart"); // lấy dữ liệu 
@@ -193,6 +197,8 @@ namespace CodeWebCuaTui.Controllers
             else
             {
                 cartDetailsServices.DeleteCartDetails(id);
+                var cartDetailss = cartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == idUser).ToList();
+                HttpContext.Session.SetString("CartDetailsUser", cartDetailss.Count().ToString());
                 return RedirectToAction("ShowCartUser");
             }
 
@@ -200,6 +206,7 @@ namespace CodeWebCuaTui.Controllers
         public IActionResult DeleteAllCart()
         {
             var acc = HttpContext.Session.GetString("acc");
+            var id = userServices.GetAllUsers().FirstOrDefault(c => c.UserName == acc).ID;
             if (acc == null)
             {
                 HttpContext.Session.Remove("Cart");
@@ -207,12 +214,14 @@ namespace CodeWebCuaTui.Controllers
             }
             else
             {
-                var id = userServices.GetAllUsers().FirstOrDefault(c => c.UserName == acc).ID;
+
                 List<CartDetails> cartDetails = new(cartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == id).ToList());
                 foreach (var item in cartDetails)
                 {
                     cartDetailsServices.DeleteCartDetails(item.ID);
                 }
+                var cartDetailss = cartDetailsServices.GetAllCartDetailss().Where(c => c.UserID == id).ToList();
+                HttpContext.Session.SetString("CartDetailsUser", cartDetailss.Count().ToString());
                 return RedirectToAction("ShowCartUser");
             }
         }

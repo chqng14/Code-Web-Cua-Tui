@@ -24,32 +24,27 @@ namespace CodeWebCuaTui.Controllers
             contex = new CodeWebCuaTuiDbContex();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
-
-            //lay 2 lst sp de hien thi tam thoi 
-            var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                   .Include("Suppliers").Take(4).ToList();
-            var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
-                        .Include("Suppliers").OrderByDescending(c => c.Price).Take(4).ToList();
-            ViewBag.Product1 = Product1;
-            ViewBag.Product2 = Product2;
-            string acc = HttpContext.Session.GetString("acc");
-            if (acc != null)
+            if (searchString != null)
             {
-
-                return View();
+                var product1 = _Product.GetProductByName(searchString);
+                TempData["search"] = "Danh sách tìm kiếm";
+                ViewBag.Product1 = product1;
             }
             else
             {
-
-                return View();
+                var Product1 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                   .Include("Suppliers").Take(4).ToList();
+                TempData["hot"] = "Hot";
+                TempData["search"] = "Sản phẩm mới";
+                ViewBag.Product1 = Product1;
             }
-
-
+            var Product2 = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                        .Include("Suppliers").OrderByDescending(c => c.Price).Take(4).ToList();
+            ViewBag.Product2 = Product2;
+            return View();
         }
-
-
         public IActionResult Privacy()
         {
             return View();

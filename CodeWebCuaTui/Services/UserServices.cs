@@ -12,8 +12,10 @@ namespace CodeWebCuaTui.Services
         }
         public bool CreateUser(User p)
         {
+            Guid roleId = Guid.Parse("5BE5EBC3-74AF-46B0-4AB6-08DB2D4EBC20");
             try
             {
+                p.RoleID = roleId;
                 p.Code = Matt();
                 p.Status = 0;
                 _context.Users.Add(p);

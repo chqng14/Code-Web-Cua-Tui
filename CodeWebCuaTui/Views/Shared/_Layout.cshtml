@@ -6,8 +6,8 @@
      var products = SessionServices.GetObjFromSession(Context.Session, "Cart");
             // tính tổng số lượng sản phẩm trong giỏ hàng
             var totalQuantity = products.Count();
-            ViewBag.TotalQuantity = totalQuantity;
-            
+            ViewBag.TotalQuantity = totalQuantity; 
+            var CartDetailsUser= Context.Session.GetString("CartDetailsUser");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -27,8 +27,6 @@
       <link href="~/lib/sweetalert2/dist/sweetalert2.min.css"/>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <script src="~/js/site.js"></script>
-
-
 </head>
 @{
 
@@ -71,10 +69,19 @@
                 <li class="nav-item">
                     <a class="nav-link"  asp-controller="Home" asp-area="" asp-action="About">Giới thiệu</a>
                 </li>
-                <a class="navbar-brand" href="#search">
-                    <img src="~/Image/Search.png" alt="Bootstrap" width="20" height="20">
-                </a>
-                <input type="text">
+                     <form asp-controller="Home" asp-action="Index">
+            <div class="input-group" style="width:200px"> 
+             <input type="text" class="form-control" name="searchString" placeholder="Tìm kiếm...">
+
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit"  hidden>
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+
             </ul>
 
             <ul class="nav justify-content-end">
@@ -96,7 +103,7 @@
                         {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Cart" asp-area="" asp-action="ShowCartUser" style="color: black;">Giỏ hàng <span
-                                    style="color:red">(@totalQuantity)</span></a>
+                                    style="color:red">(@CartDetailsUser)</span></a>
                         </li>
                         <a class="navbar-brand" asp-controller="Cart" asp-area="" asp-action="ShowCart">
                             <img src="~/Image/shopping-cart.png" alt="Bootstrap" width="20" height="20">
@@ -121,7 +128,8 @@
                   }
                   @if(acc!=null)
                    {
-                             <a class="btn btn-primary" style="background-color:white;color:black;border:none">@acc.ToString()</a> 
+                               @Html.ActionLink(@acc.ToString(), "ShowBillForUser","Bill", null, new { @class = "btn btn-success" })
+
                                <a class="btn btn-primary" asp-controller="User" asp-area="" asp-action="Logout"   role="button">Đăng Xuất</a>
                    }
                         </div>

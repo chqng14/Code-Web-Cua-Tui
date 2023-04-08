@@ -1,12 +1,8 @@
 ﻿@model IEnumerable<CodeWebCuaTui.Models.Product>
-@{
-    ViewData["Title"] = "Home Page";
-     var Product1 = ViewBag.Product1 as List<Product>;
+@{ 
+    var products = ViewBag.Product1 as List<Product>;
     var Product2 = ViewBag.Product2 as List<Product>;
-    var Product3 = ViewBag.Product3 as List<Product>;
-
-}     
-
+}
      <img src="~/Image/bannerMixishopnew.png" class="img-fluid" width="100%" alt="..." style="margin: auto">
  
 
@@ -23,23 +19,24 @@
           </script>
         }
 
-<p class="fs-1" align="center" style="margin-top: 40px;"><strong>@TempData["search"]</strong></p>
+<p class="fs-1" align="center" style="margin-top: 40px;"><strong>Bán chạy nhất</strong></p>
 <div align="center">
     <button type="button" class="btn btn-outline-primary" ><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="ShowAll" > Tất cả sản phẩm  </a></button>
 </div>
 <br>
 <div class="container text-center">
+    <input id="name" />
+   <button type="submit" asp-action="Index" asp-controller="Home"></button>
      <div class="row align-items-start">
-          @foreach (var item in Product1)
+         @if(products!=null)
+        {
+             @foreach (var item in products)
              {
                <div class="col-3 col-md-3" style="margin: auto;"  >
                  <div class="khung" style="position: relative;">
                  <img class="anhsp" style="border: 0px;width:260px;height:350px"  class="img-thumbnail" alt="..." src="@Url.Content(item.Images.Path1)"
                      alt="Hình ảnh"  >
-                     @if(TempData["hot"]!=null)
-                    {
                          <div class="trangthaimoi"><Span class="label">Hot</Span></div>
-                    }    
                  </div>  
                  <br>
                 <p style="color: rgb(24, 1, 1);" class="theloai"> @Html.DisplayFor(modelItem => item.Category.Name)</p>
@@ -52,7 +49,8 @@
                </div>
 
              }
-     </div>
+        }
+    </div>
 </div>
 <div align="center">
     <h1>Sản phẩm mới</h1>

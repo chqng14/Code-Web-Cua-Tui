@@ -66,7 +66,8 @@ namespace CodeWebCuaTui.Services
 
         public List<Product> GetProductByName(string name)
         {
-            return _context.Product.Where(c => c.Name.Contains(name)).ToList();
+            return _context.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                        .Include("Suppliers").Where(c => c.Name.Contains(name)).ToList();
         }
 
         public bool UpdateProduct(Product p)

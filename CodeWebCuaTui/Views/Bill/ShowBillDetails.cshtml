@@ -19,7 +19,7 @@
             <th>
               Giá
             </th>
-            <th></th>
+
         </tr>
     </thead>
     <tbody>
@@ -29,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Bill.BillCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Product.Name)
+                      @Html.ActionLink(item.Product.Name, "Details","Home", new { id=item.ProductId })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
@@ -37,9 +37,7 @@
             <td>
                  @item.Price.ToString("n0") đồng
             </td>
-            <td>
-                @Html.ActionLink("Details", "Details","Home", new { id=item.ProductId }) 
-            </td>
+   
         </tr>
 }
     </tbody>

@@ -15,18 +15,13 @@
                         <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class=" col-5 col-md-5"style="margin: 10px;float:left">
-                        <label asp-for="Role" class="control-label"></label>
-                          @Html.DropDownListFor(model => model.RoleID, ViewBag.Role as SelectList, "--Select Color--", new { @class = "form-control" })
-                        <span asp-validation-for="RoleID" class="text-danger"></span>
-                    </div>
-                    <div class=" col-5 col-md-5"style="margin: 10px;float:left">
                         <label asp-for="Name" class="control-label"></label>
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class=" col-5 col-md-5"style="margin: 10px;float:left">
                         <label asp-for="Phone" class="control-label"></label>
-                        <input asp-for="Phone" class="form-control" />
+                        <input asp-for="Phone" minlength="10" maxlength="10" class="form-control" />
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
                     <div class=" col-5 col-md-5"style="margin: 10px;float:left">
@@ -40,8 +35,8 @@
                         <span asp-validation-for="Birthday" class="text-danger"></span>
                     </div>
                     <div class=" col-5 col-md-5"style="margin: 10px;float:left">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
+                        <label asp-for="Email"  class="control-label"></label>
+                        <input asp-for="Email" type="email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class=" col-5 col-md-5"style="margin: 10px;float:left">
