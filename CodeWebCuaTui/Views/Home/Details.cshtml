@@ -91,7 +91,7 @@ else
                                 <form method="post" asp-action="AddToCart" asp-controller="Cart">
                          <div class="d-flex flex-row">
                                  <p style="height:10px">Số lượng</p>
-                          <button class="btn btn-link px-2"
+                          <button class="btn btn-link px-2" hidden
                             onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                             <i class="fas fa-minus"></i>
                           </button>
@@ -99,7 +99,7 @@ else
                           <input id="form1" min="0" name="quantity" max="@Model.Quantity" value="1" type="number"
                             class="form-control form-control-sm" style="width: 70px;" />
       
-                          <button class="btn btn-link px-2"
+                          <button class="btn btn-link px-2" hidden
                             onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                             <i class="fas fa-plus"></i>
                           </button>
@@ -116,7 +116,7 @@ else
                              <form method="post" asp-action="AddToCartUser" asp-controller="Cart">
                          <div class="d-flex flex-row">
                                  <p style="height:10px">Số lượng</p>
-                          <button class="btn btn-link px-2"
+                          <button class="btn btn-link px-2" hidden
                             onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                             <i class="fas fa-minus"></i>
                           </button>
@@ -124,7 +124,7 @@ else
                           <input id="form1" min="0" name="quantity" max="@Model.Quantity" value="1" type="number"
                             class="form-control form-control-sm" style="width: 70px;" />
       
-                          <button class="btn btn-link px-2"
+                          <button class="btn btn-link px-2" hidden
                             onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                             <i class="fas fa-plus"></i>
                           </button>

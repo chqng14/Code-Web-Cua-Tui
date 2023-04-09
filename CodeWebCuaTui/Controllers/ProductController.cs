@@ -44,6 +44,18 @@ namespace CodeWebCuaTui.Controllers
 
             return View(Product);
         }
+        public IActionResult test()
+        {
+            var Product = contex.Product.Include("Color").Include("Images").Include("Sizes").Include("Category")
+                .Include("Suppliers").ToList();
+            //if(Product!= null)
+            //{
+            //    var image = contex.Images.FirstOrDefault(i=>i.pro)
+            //}    
+            //List<Product> Product = _Product.GetAllProducts();
+
+            return View(Product);
+        }
         public IActionResult Details(Guid id)
         {
             CodeWebCuaTuiDbContex contex = new CodeWebCuaTuiDbContex();
