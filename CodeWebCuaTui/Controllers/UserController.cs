@@ -106,7 +106,11 @@ namespace CodeWebCuaTui.Controllers
                 TempData["Create"] = "Đăng kí thành công";
                 return RedirectToAction("Index", "Home");
             }
-            else return BadRequest();
+            else
+            {
+                TempData["MessageForCreate"] = "Đăng kí thất bại do trùng UserName";
+                return RedirectToAction("Create");
+            }
         }
 
 

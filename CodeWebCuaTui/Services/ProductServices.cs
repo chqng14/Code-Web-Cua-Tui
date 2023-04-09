@@ -16,10 +16,19 @@ namespace CodeWebCuaTui.Services
         {
             try
             {
-                p.ProductCode = Matt();
-                _context.Product.Add(p);
-                _context.SaveChanges();
-                return true;
+                var oldProduct = _context.Product.FirstOrDefault(c => c.Name == p.Name);
+                if (oldProduct != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    p.ProductCode = Matt();
+                    _context.Product.Add(p);
+                    _context.SaveChanges();
+                    return true;
+                }
+
             }
             catch (Exception)
             {
@@ -74,8 +83,15 @@ namespace CodeWebCuaTui.Services
         {
             try
             {
-                var a = _context.Product.Find(p.ID);
-                a.ColorID = p.ColorID;
+                var oldProduct = _context.Product.FirstOrDefault(c => c.Name == p.Name);
+                if (oldProduct != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var a = _context.Product.Find(p.ID);
+                    a.ColorID = p.ColorID;
                     a.SizeID = p.SizeID;
                     a.ProductCode = p.ProductCode;
                     a.Name = p.Name;
@@ -88,8 +104,10 @@ namespace CodeWebCuaTui.Services
                     a.ImageID = p.ImageID;
                     a.Status = p.Status;
                     _context.Product.Update(a);
-                _context.SaveChanges();
-                return true;
+                    _context.SaveChanges();
+                    return true;
+                }
+
             }
             catch (Exception)
             {

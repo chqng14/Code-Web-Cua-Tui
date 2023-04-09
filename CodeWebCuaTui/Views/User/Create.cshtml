@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Create";
 }
+  @if(TempData["MessageForCreate"]!=null)
+        {
+          <script>
+              Swal.fire('@TempData["MessageForCreate"]')
+          </script>
+        }
  <section class="vh-100 bg-image" style="padding-top: 100px;">
     <div class="mask d-flex align-items-center h-100 gradient-custom-3">
       <div class="container h-100">
@@ -21,7 +27,7 @@
                     </div>
                     <div class=" col-5 col-md-5"style="margin: 10px;float:left">
                         <label asp-for="Phone" class="control-label"></label>
-                        <input asp-for="Phone" minlength="10" maxlength="10" class="form-control" />
+                        <input asp-for="Phone" type="number" minlength="10" maxlength="10" class="form-control" />
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
                     <div class=" col-5 col-md-5"style="margin: 10px;float:left">
@@ -56,11 +62,9 @@
                   </div>
 
                   <p class="text-center text-muted mt-5 mb-0" style="font-size: 20px;">Đã có tài khoản? <a
-                      asp-area="" asp-controller="Home" asp-action="Login" class="fw-bold text-body"><u>Đăng nhập</u></a></p>
+                      asp-area="" asp-controller="User" asp-action="Login" class="fw-bold text-body"><u>Đăng nhập</u></a></p>
             </div>
              
-                      
-
               </div>
             </div>
           </div>

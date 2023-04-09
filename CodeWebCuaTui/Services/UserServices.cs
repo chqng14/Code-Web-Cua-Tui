@@ -15,12 +15,21 @@ namespace CodeWebCuaTui.Services
             Guid roleId = Guid.Parse("5BE5EBC3-74AF-46B0-4AB6-08DB2D4EBC20");
             try
             {
-                p.RoleID = roleId;
-                p.Code = Matt();
-                p.Status = 0;
-                _context.Users.Add(p);
-                _context.SaveChanges();
-                return true;
+                var oldUser = _context.Users.FirstOrDefault(c => c.UserName == p.UserName);
+                if (oldUser != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    p.RoleID = roleId;
+                    p.Code = Matt();
+                    p.Status = 0;
+                    _context.Users.Add(p);
+                    _context.SaveChanges();
+                    return true;
+                }
+           
             }
             catch (Exception)
             {
@@ -71,21 +80,30 @@ namespace CodeWebCuaTui.Services
         {
             try
             {
-                var a = _context.Users.Find(p.ID);
-                a.RoleID = p.RoleID;
-                a.Code = p.Code;
-                a.Name = p.Name;
-                a.Phone = p.Phone;
-                a.Address = p.Address;
-                a.Birthday = p.Birthday;
-                a.Email = p.Email;
-                a.UserName = p.UserName;
-                a.Password = p.Password;
-                a.Status = p.Status;
+                var oldUser = _context.Users.FirstOrDefault(c => c.UserName == p.UserName);
+                if (oldUser != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var a = _context.Users.Find(p.ID);
+                    a.RoleID = p.RoleID;
+                    a.Code = p.Code;
+                    a.Name = p.Name;
+                    a.Phone = p.Phone;
+                    a.Address = p.Address;
+                    a.Birthday = p.Birthday;
+                    a.Email = p.Email;
+                    a.UserName = p.UserName;
+                    a.Password = p.Password;
+                    a.Status = p.Status;
 
-                _context.Users.Update(a);
-                _context.SaveChanges();
-                return true;
+                    _context.Users.Update(a);
+                    _context.SaveChanges();
+                    return true;
+                }
+               
             }
             catch (Exception)
             {

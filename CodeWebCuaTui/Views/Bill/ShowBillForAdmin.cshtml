@@ -44,8 +44,8 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
+        <tr onclick="window.location.href='@Url.Action("ShowBillDetails", "Bill", new { id=item.ID })'">
+            <td >
                 @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
@@ -74,9 +74,6 @@
             </td>
             <td>
                 @(item.Status == 0 ? "Đã hoàn thành" : "Chưa hoàn thành")
-            </td>
-            <td>
-                @Html.ActionLink("Chi Tiết", "ShowBillDetails","Bill" ,new { id=item.ID })
             </td>
         </tr>
 }

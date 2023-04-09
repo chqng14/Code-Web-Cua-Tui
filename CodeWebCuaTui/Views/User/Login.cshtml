@@ -1,7 +1,7 @@
 ﻿@model CodeWebCuaTui.Models.User;
 
     <section class="vh-100 gradient-custom">
-        <div class="container py-5 h-100">
+        <div class="container py-5 h-70">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card bg-white text-dark" style="border-radius: 1rem;">
@@ -37,9 +37,9 @@
                                         <button class="btn btn-outline-danger btn-lg px-5" type="submit" asp-controller="User" asp-action="Login" value="Login">Đăng nhập</button>
                             </div>
                         }
-                        <div>
+                        <div style="margin-top:30px">
                             <p class="mb-0" style="font-size: 20px;">
-                                Chưa có tài khoản? <a href="#signup" class="text-dark-50 fw-bold">Sign Up</a>
+                                 Chưa có tài khoản ? <a   asp-controller="User" asp-area="" asp-action="Create" role="button">Đăng ký</a>
                             </p>
                         </div>
 
@@ -53,12 +53,6 @@
                                     <a href="#!" class="text-dark"><i class="fab fa-google fa-lg"></i></a>
                                 </div>
 
-                            </div>
-
-                            <div>
-                                <p class="mb-0" style="font-size: 20px;">Không có tài khoản? <a asp-area="" asp-controller="User" asp-action="Create"
-                                        class="text-dark-50 fw-bold">Đăng ký</a>
-                                </p>
                             </div>
 
                         </div>

@@ -69,10 +69,15 @@ namespace CodeWebCuaTui.Controllers
         {
             if (_Product.CreateProduct(Product))
             {
-                TempData["Message"] = "Thêm thành công";
+                TempData["MessageForCreate"] = "Thêm thành công";
                 return RedirectToAction("ShowAll");
             }
-            else return BadRequest();
+            else
+            {
+                TempData["MessageForCreate"] = "Thêm thất bại do sản phẩm trùng tên";
+                return RedirectToAction("Create");
+            }
+
         }
         [HttpGet]
         public IActionResult Edit(Guid id)
@@ -94,12 +99,13 @@ namespace CodeWebCuaTui.Controllers
             ViewBag.Images = new SelectList(_ImageService.GetAllImagess(), "ID", "Name");
             if (_Product.UpdateProduct(Product))
             {
+                TempData["AlertMessage"] = "Cập nhật thành công";
                 return RedirectToAction("ShowAll");
 
             }
             else
             {
-                TempData["AlertMessage"] = "Looiiiiiiiiiiiiiiiiii";
+                TempData["AlertMessage"] = "Sản phẩm trùng tên";
                 return View();
             }
 

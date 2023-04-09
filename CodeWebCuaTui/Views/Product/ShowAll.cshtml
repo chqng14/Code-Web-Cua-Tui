@@ -6,6 +6,19 @@
 
 <h1>ShowAll</h1>
 
+     @if(TempData["MessageForCreate"]!=null)
+        {
+          <script>
+              Swal.fire('@TempData["MessageForCreate"]')
+          </script>
+        }
+        
+     @if(TempData["AlertMessage"]!=null)
+        {
+          <script>
+              Swal.fire('@TempData["AlertMessage"]')
+          </script>
+        }
 <p>
     <a asp-action="Create">Create New</a>
 </p>

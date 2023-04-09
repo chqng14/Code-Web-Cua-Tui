@@ -35,7 +35,6 @@ namespace CodeWebCuaTui.Controllers
         public IActionResult AddToCart(CartItemViewModel a)
         {
             //lấy dữ liệu sản phẩm     
-
             var product = productServices.GetProductById(a.ProductID);
             var categoryName = dbContex.Categories.Where(c => c.ID == product.CategoryID).Select(c => c.Name).FirstOrDefault();
             var ImagePath = dbContex.Images.Where(c => c.ID == product.ImageID).Select(c => c.Path1).FirstOrDefault();

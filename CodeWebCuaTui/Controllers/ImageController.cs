@@ -49,7 +49,7 @@ namespace CodeWebCuaTui.Controllers
             Image.Path4 = sourcePath4;
             if (_Image.CreateImages(Image))
             {
-                string destinationPath = @"D:\CodeWebCuaTui - Copy\CodeWebCuaTui\wwwroot\Image\";
+                string destinationPath = @"C:\Chang\C#4\Code\CodeWebCuaTui\CodeWebCuaTui\wwwroot\Image\";
                 string fileName1 = Path.GetFileName(sourcePath1);
                 string fileName2 = Path.GetFileName(sourcePath2);
                 string fileName3 = Path.GetFileName(sourcePath3);
