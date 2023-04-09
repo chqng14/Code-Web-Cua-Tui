@@ -138,7 +138,7 @@ namespace CodeWebCuaTui.Controllers
 
                     }
                 }
-            }    
+            }
             return RedirectToAction("ShowCart", "Cart");
         }
         public IActionResult ShowBillForAdmin()
@@ -154,10 +154,10 @@ namespace CodeWebCuaTui.Controllers
         }
         public IActionResult ShowBillDetails(Guid id)
         {
-
             List<BillDetails> bills = _billDetails.GetAllBillDetails().Where(c => c.BillID == id).ToList();
             return View(bills);
         }
+      
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -3,7 +3,7 @@ using CodeWebCuaTui.Services;
 using Microsoft.CodeAnalysis.Options;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//chang
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ICategoryServices, CategoryServices>();
